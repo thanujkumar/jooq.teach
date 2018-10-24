@@ -73,6 +73,7 @@
 			<version>${springframework.version}</version>
 		</dependency>
 
+        <!-- mvn install:install-file -Dfile=ons-12.1.0.2.jar  -DgroupId=com.oracle.jdbc -DartifactId=ons -Dversion=12.1.0.2 -Dpackaging=jar -->
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc8</artifactId>
