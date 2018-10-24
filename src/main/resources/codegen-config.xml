@@ -22,7 +22,16 @@
 			<excludes>PREFIX_.*</excludes>
 			<inputSchema>jooqdata</inputSchema>
 		</database>
-		<generate></generate>
+		<generate>
+		  <javaTimeTypes>true</javaTimeTypes>
+		  <jpaAnnotations>true</jpaAnnotations>
+		  <jpaVersion>2.2</jpaVersion>
+		  <pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
+		  <pojos>true</pojos>
+		  <daos>true</daos>
+		  <validationAnnotations>false</validationAnnotations>
+		  <springAnnotations>true</springAnnotations>
+		</generate>
 		<target>
 			<packageName>jooq.examples.generated</packageName>
 			<directory>./generated</directory>
