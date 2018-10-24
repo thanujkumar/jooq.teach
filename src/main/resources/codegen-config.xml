@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration
+	xmlns="http://www.jooq.org/xsd/jooq-codegen-3.11.0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.jooq.org/xsd/jooq-codegen-3.11.0.xsd http://www.jooq.org/xsd/jooq-codegen-3.11.0.xsd">
+
+	<logging>TRACE</logging>
+
+	<jdbc>
+		<driver>oracle.jdbc.driver.OracleDriver</driver>
+		<url>jdbc:oracle:thin:@(DESCRIPTION=(SOURCE_ROUTE=YES) (ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orcl)))</url>
+		<user>jooqdata</user>
+		<password>jooqdata</password>
+		<schema>jooqdata</schema>
+	</jdbc>
+
+	<generator>
+		<name>org.jooq.codegen.JavaGenerator</name>
+		<database>
+			<name>org.jooq.meta.oracle.OracleDatabase</name>
+			<includes>.*</includes>
+			<excludes>PREFIX_.*</excludes>
+			<inputSchema>jooqdata</inputSchema>
+		</database>
+		<generate></generate>
+		<target>
+			<packageName>jooq.examples.generated</packageName>
+			<directory>./generated</directory>
+		</target>
+	</generator>
+
+</configuration>
