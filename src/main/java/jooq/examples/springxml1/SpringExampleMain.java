@@ -1,4 +1,4 @@
-package jooq.examples.springxml;
+package jooq.examples.springxml1;
 
 import static jooq.examples.generated.tables.Author.AUTHOR;
 import static jooq.examples.generated.tables.Book.BOOK;
@@ -55,7 +55,7 @@ public class SpringExampleMain {
 	private static ApplicationContext context;
 
 	public static void main(String[] args) throws Exception {
-		context = new ClassPathXmlApplicationContext("springxml-nonxa-config.xml");
+		context = new ClassPathXmlApplicationContext("springxml-1-nonxa-config.xml");
 		for (String s : context.getBeanDefinitionNames()) {
 			System.out.println(s);
 		}

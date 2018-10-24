@@ -1,4 +1,4 @@
-package jooq.examples.springxml;
+package jooq.examples.springxml1;
 
 import static jooq.examples.generated.tables.Book.BOOK;
 

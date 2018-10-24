@@ -45,11 +45,11 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		<constructor-arg ref="config" />
 	</bean>
 
-	<bean id="exceptionTranslator" class="jooq.examples.springxml.ExceptionTranslator" />
+	<bean id="exceptionTranslator" class="jooq.examples.springxml1.ExceptionTranslator" />
 
 
 	<!-- Configure jOOQ's TransactionProvider as a proxy to Spring's transaction manager -->
-	<bean id="transactionProvider" class="jooq.examples.springxml.SpringTransactionProvider">
+	<bean id="transactionProvider" class="jooq.examples.springxml1.SpringTransactionProvider">
 	</bean>
 
    
@@ -82,6 +82,6 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		</property>
 	</bean>
 	
-	<bean id="books" class="jooq.examples.springxml.DefaultBookService"/>
+	<bean id="books" class="jooq.examples.springxml1.DefaultBookService"/>
 	
 </beans>

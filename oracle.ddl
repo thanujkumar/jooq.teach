@@ -2,6 +2,8 @@
 --   at:        2018-10-24 12:17:26 IST
 --   site:      Oracle Database 12cR2
 --   type:      Oracle Database 12cR2
+-- https://www.javacodegeeks.com/2015/09/jooq-type-safe-db-querying.html?utm_content=buffer2ff2a&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer
+
 
 
 
