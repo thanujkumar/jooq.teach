@@ -16,7 +16,6 @@ import org.jooq.DSLContext;
 import org.jooq.Record3;
 import org.jooq.Result;
 import org.jooq.tools.JooqLogger;
-import org.jooq.tools.LoggerListener;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -25,7 +24,6 @@ import jooq.examples.generated.tables.Book;
 import jooq.examples.generated.tables.BookStore;
 import jooq.examples.generated.tables.BookToBookStore;
 import jooq.examples.generated.tables.records.AuthorRecord;
-import oracle.dms.instrument.LoggerFactory;
 
 public class SpringExampleMain {
 	static {

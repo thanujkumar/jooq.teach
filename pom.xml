@@ -18,9 +18,10 @@
 		<project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
 		<project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
 
-		<surefire.version>2.20</surefire.version>
+		<surefire.version>2.22.0</surefire.version>
 		<selenium.java.version>3.13.0</selenium.java.version>
-		<junit.version>4.12</junit.version>
+		<junit.version>5.1.0</junit.version>
+		<junit5.platform>1.1.0</junit5.platform>
 		<jooq.version>3.11.5</jooq.version>
 		<oracle.driver.version>12.2.0.1</oracle.driver.version>
 		<springframework.version>5.1.0.RELEASE</springframework.version>
@@ -72,6 +73,7 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
+		
 
         <!-- mvn install:install-file -Dfile=ons-12.1.0.2.jar  -DgroupId=com.oracle.jdbc -DartifactId=ons -Dversion=12.1.0.2 -Dpackaging=jar -->
 		<dependency>
@@ -115,11 +117,36 @@
 		</dependency -->
 
 		<!-- Testing -->
+		<!-- https://www.petrikainulainen.net/programming/testing/junit-5-tutorial-running-unit-tests-with-maven/ -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<type>jar</type>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+	
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-launcher</artifactId>
+			<version>${junit5.platform}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-runner</artifactId>
+			<version>${junit5.platform}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
