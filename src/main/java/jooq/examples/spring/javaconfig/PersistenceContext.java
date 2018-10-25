@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import javax.sql.DataSource;
 
 import org.jooq.SQLDialect;
+import org.jooq.TransactionProvider;
 import org.jooq.impl.DataSourceConnectionProvider;
 import org.jooq.impl.DefaultConfiguration;
 import org.jooq.impl.DefaultDSLContext;
@@ -87,9 +88,11 @@ public class PersistenceContext {
 	 public DefaultConfiguration configuration() throws SQLException {
 		 DefaultConfiguration jooqConfig = new DefaultConfiguration();
 		 jooqConfig.setConnectionProvider(connectionProvider());
-		 jooqConfig.set(new DefaultExecuteListenerProvider(jooqToSpringExceptionTransformer()), 
+		 jooqConfig.setTransactionProvider(jooqTransactionProvider());
+		 jooqConfig.setSQLDialect(SQLDialect.valueOf(env.getProperty("jooq.sql.dialect", SQLDialect.ORACLE12C.getName())));
+		 jooqConfig.setExecuteListenerProvider(new DefaultExecuteListenerProvider(jooqToSpringExceptionTransformer()), 
 				 new DefaultExecuteListenerProvider(new QueryPerformanceListener()));
-		 jooqConfig.set(SQLDialect.valueOf(env.getProperty("jooq.sql.dialect", SQLDialect.ORACLE12C.getName())));
+		 
 		 
 		 return jooqConfig;
 	 }
@@ -97,5 +100,11 @@ public class PersistenceContext {
 	 @Bean
 	 public DefaultDSLContext dsl() throws SQLException {
 		 return new DefaultDSLContext(configuration());
+	 }
+	 
+	 // Configure jOOQ's TransactionProvider as a proxy to Spring's transaction manager
+	 @Bean
+	 public TransactionProvider jooqTransactionProvider() throws SQLException {
+		 return new CustomTransactionProvider(transactionManager());
 	 }
 }

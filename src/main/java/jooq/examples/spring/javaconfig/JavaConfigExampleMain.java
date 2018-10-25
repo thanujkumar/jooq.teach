@@ -21,6 +21,7 @@ import jooq.examples.generated.tables.BookToBookStore;
 import oracle.ucp.UniversalConnectionPoolException;
 import oracle.ucp.admin.UniversalConnectionPoolManager;
 
+//TODO custom transaction provider not working and looks like tx mgr is not used
 public class JavaConfigExampleMain {
 
 	public static void main(String[] args) throws UniversalConnectionPoolException {
