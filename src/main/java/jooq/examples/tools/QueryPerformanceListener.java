@@ -7,7 +7,7 @@ import org.jooq.tools.StopWatch;
 /*
  * Just hook a simple execute listener into your jOOQ Configuration
  */
-class QueryPerformanceListener extends DefaultExecuteListener {
+public class QueryPerformanceListener extends DefaultExecuteListener {
 
 	
 	/**
@@ -15,9 +15,6 @@ class QueryPerformanceListener extends DefaultExecuteListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	StopWatch watch;
-
-	class SQLPerformanceWarning  extends Exception {
-	}
 
 	@Override
 	public void executeStart(ExecuteContext ctx) {
@@ -27,9 +24,9 @@ class QueryPerformanceListener extends DefaultExecuteListener {
 
 	@Override
 	public void executeEnd(ExecuteContext ctx) {
+		
 		super.executeEnd(ctx);
-			System.out.println("Slow SQL"+
-					"jOOQ Meta executed a slow query" + "\n\n" + "Please report this bug here: "
-							+ "https://github.com/jOOQ/jOOQ/issues/new\n\n" + ctx.query());
+			System.out.println("Performance of SQL \n"
+					 + ctx.query() +"\n took "+ StopWatch.format(watch.split()));
 	}
 }
