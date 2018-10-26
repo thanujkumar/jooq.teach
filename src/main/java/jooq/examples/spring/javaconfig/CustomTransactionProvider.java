@@ -23,6 +23,7 @@ public class CustomTransactionProvider implements TransactionProvider {
 	@Override
 	public void begin(TransactionContext ctx) throws DataAccessException {
 		log.info("Begin transaction");
+		System.out.println("-----------------------------------begin----------------------------------------------------------++");
 
 		// This TransactionProvider behaves like jOOQ's DefaultTransactionProvider,
 		// which supports nested transactions using Savepoints
@@ -34,6 +35,7 @@ public class CustomTransactionProvider implements TransactionProvider {
 	@Override
 	public void commit(TransactionContext ctx) {
 		log.info("commit transaction");
+		System.out.println("---------------------------------commit------------------------------------------------------------++");
 
 		txMgr.commit(((CustomTransaction) ctx.transaction()).tx);
 	}
@@ -41,6 +43,7 @@ public class CustomTransactionProvider implements TransactionProvider {
 	@Override
 	public void rollback(TransactionContext ctx) {
 		log.info("rollback transaction");
+		System.out.println("-----------------------------------rollback----------------------------------------------------------++");
 
 		txMgr.rollback(((CustomTransaction) ctx.transaction()).tx);
 	}
@@ -49,6 +52,7 @@ public class CustomTransactionProvider implements TransactionProvider {
 		final TransactionStatus tx;
 
 		CustomTransaction(TransactionStatus tx) {
+			System.out.println("---------------------------------CustomTransaction------------------------------------------------------------++");
 			this.tx = tx;
 		}
 	}

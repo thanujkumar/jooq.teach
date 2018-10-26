@@ -45,11 +45,11 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<AuthorRecord> AUTHOR_PK = UniqueKeys0.AUTHOR_PK;
-    public static final UniqueKey<BookRecord> BOOK_PK = UniqueKeys0.BOOK_PK;
-    public static final UniqueKey<BookStoreRecord> BOOK_STORE_NAME_UN = UniqueKeys0.BOOK_STORE_NAME_UN;
-    public static final UniqueKey<BookToBookStoreRecord> BOOK_TO_BOOK_STORE_PK = UniqueKeys0.BOOK_TO_BOOK_STORE_PK;
-    public static final UniqueKey<LanguageRecord> LANGUAGE_PK = UniqueKeys0.LANGUAGE_PK;
+    public static final UniqueKey<AuthorRecord> SYS_C007675 = UniqueKeys0.SYS_C007675;
+    public static final UniqueKey<BookRecord> SYS_C007681 = UniqueKeys0.SYS_C007681;
+    public static final UniqueKey<BookStoreRecord> SYS_C007685 = UniqueKeys0.SYS_C007685;
+    public static final UniqueKey<BookToBookStoreRecord> SYS_C007688 = UniqueKeys0.SYS_C007688;
+    public static final UniqueKey<LanguageRecord> SYS_C007672 = UniqueKeys0.SYS_C007672;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -65,17 +65,17 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class UniqueKeys0 {
-        public static final UniqueKey<AuthorRecord> AUTHOR_PK = Internal.createUniqueKey(Author.AUTHOR, "AUTHOR_PK", Author.AUTHOR.ID);
-        public static final UniqueKey<BookRecord> BOOK_PK = Internal.createUniqueKey(Book.BOOK, "BOOK_PK", Book.BOOK.ID);
-        public static final UniqueKey<BookStoreRecord> BOOK_STORE_NAME_UN = Internal.createUniqueKey(BookStore.BOOK_STORE, "BOOK_STORE_NAME_UN", BookStore.BOOK_STORE.NAME);
-        public static final UniqueKey<BookToBookStoreRecord> BOOK_TO_BOOK_STORE_PK = Internal.createUniqueKey(BookToBookStore.BOOK_TO_BOOK_STORE, "BOOK_TO_BOOK_STORE_PK", BookToBookStore.BOOK_TO_BOOK_STORE.NAME, BookToBookStore.BOOK_TO_BOOK_STORE.BOOK_ID);
-        public static final UniqueKey<LanguageRecord> LANGUAGE_PK = Internal.createUniqueKey(Language.LANGUAGE, "LANGUAGE_PK", Language.LANGUAGE.ID);
+        public static final UniqueKey<AuthorRecord> SYS_C007675 = Internal.createUniqueKey(Author.AUTHOR, "SYS_C007675", Author.AUTHOR.ID);
+        public static final UniqueKey<BookRecord> SYS_C007681 = Internal.createUniqueKey(Book.BOOK, "SYS_C007681", Book.BOOK.ID);
+        public static final UniqueKey<BookStoreRecord> SYS_C007685 = Internal.createUniqueKey(BookStore.BOOK_STORE, "SYS_C007685", BookStore.BOOK_STORE.NAME);
+        public static final UniqueKey<BookToBookStoreRecord> SYS_C007688 = Internal.createUniqueKey(BookToBookStore.BOOK_TO_BOOK_STORE, "SYS_C007688", BookToBookStore.BOOK_TO_BOOK_STORE.NAME, BookToBookStore.BOOK_TO_BOOK_STORE.BOOK_ID);
+        public static final UniqueKey<LanguageRecord> SYS_C007672 = Internal.createUniqueKey(Language.LANGUAGE, "SYS_C007672", Language.LANGUAGE.ID);
     }
 
     private static class ForeignKeys0 {
-        public static final ForeignKey<BookRecord, AuthorRecord> FK_BOOK_AUTHOR = Internal.createForeignKey(jooq.examples.generated.Keys.AUTHOR_PK, Book.BOOK, "FK_BOOK_AUTHOR", Book.BOOK.AUTHOR_ID);
-        public static final ForeignKey<BookRecord, LanguageRecord> FK_BOOK_LANGUAGE = Internal.createForeignKey(jooq.examples.generated.Keys.LANGUAGE_PK, Book.BOOK, "FK_BOOK_LANGUAGE", Book.BOOK.LANGUAGE_ID);
-        public static final ForeignKey<BookToBookStoreRecord, BookStoreRecord> FK_B2BS_BOOK_STORE = Internal.createForeignKey(jooq.examples.generated.Keys.BOOK_STORE_NAME_UN, BookToBookStore.BOOK_TO_BOOK_STORE, "FK_B2BS_BOOK_STORE", BookToBookStore.BOOK_TO_BOOK_STORE.NAME);
-        public static final ForeignKey<BookToBookStoreRecord, BookRecord> FK_B2BS_BOOK = Internal.createForeignKey(jooq.examples.generated.Keys.BOOK_PK, BookToBookStore.BOOK_TO_BOOK_STORE, "FK_B2BS_BOOK", BookToBookStore.BOOK_TO_BOOK_STORE.BOOK_ID);
+        public static final ForeignKey<BookRecord, AuthorRecord> FK_BOOK_AUTHOR = Internal.createForeignKey(jooq.examples.generated.Keys.SYS_C007675, Book.BOOK, "FK_BOOK_AUTHOR", Book.BOOK.AUTHOR_ID);
+        public static final ForeignKey<BookRecord, LanguageRecord> FK_BOOK_LANGUAGE = Internal.createForeignKey(jooq.examples.generated.Keys.SYS_C007672, Book.BOOK, "FK_BOOK_LANGUAGE", Book.BOOK.LANGUAGE_ID);
+        public static final ForeignKey<BookToBookStoreRecord, BookStoreRecord> FK_B2BS_BOOK_STORE = Internal.createForeignKey(jooq.examples.generated.Keys.SYS_C007685, BookToBookStore.BOOK_TO_BOOK_STORE, "FK_B2BS_BOOK_STORE", BookToBookStore.BOOK_TO_BOOK_STORE.NAME);
+        public static final ForeignKey<BookToBookStoreRecord, BookRecord> FK_B2BS_BOOK = Internal.createForeignKey(jooq.examples.generated.Keys.SYS_C007681, BookToBookStore.BOOK_TO_BOOK_STORE, "FK_B2BS_BOOK", BookToBookStore.BOOK_TO_BOOK_STORE.BOOK_ID);
     }
 }

@@ -31,11 +31,11 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "BOOK_STORE", schema = "JOOQDATA", indexes = {
-    @Index(name = "BOOK_STORE_NAME_UN", unique = true, columnList = "NAME ASC")
+    @Index(name = "SYS_C007685", unique = true, columnList = "NAME ASC")
 })
 public class BookStoreRecord extends TableRecordImpl<BookStoreRecord> implements Record1<String> {
 
-    private static final long serialVersionUID = 233802271;
+    private static final long serialVersionUID = 1940418129;
 
     /**
      * Setter for <code>JOOQDATA.BOOK_STORE.NAME</code>.

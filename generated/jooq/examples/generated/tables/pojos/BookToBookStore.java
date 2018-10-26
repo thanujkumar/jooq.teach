@@ -30,11 +30,11 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "BOOK_TO_BOOK_STORE", schema = "JOOQDATA", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"NAME", "BOOK_ID"})
 }, indexes = {
-    @Index(name = "BOOK_TO_BOOK_STORE_PK", unique = true, columnList = "NAME ASC, BOOK_ID ASC")
+    @Index(name = "SYS_C007688", unique = true, columnList = "NAME ASC, BOOK_ID ASC")
 })
 public class BookToBookStore implements Serializable {
 
-    private static final long serialVersionUID = -1704438163;
+    private static final long serialVersionUID = -1439316642;
 
     private String     name;
     private BigInteger bookId;

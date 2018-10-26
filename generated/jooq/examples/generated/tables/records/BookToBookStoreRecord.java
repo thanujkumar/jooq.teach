@@ -37,11 +37,11 @@ import org.jooq.impl.UpdatableRecordImpl;
 @Table(name = "BOOK_TO_BOOK_STORE", schema = "JOOQDATA", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"NAME", "BOOK_ID"})
 }, indexes = {
-    @Index(name = "BOOK_TO_BOOK_STORE_PK", unique = true, columnList = "NAME ASC, BOOK_ID ASC")
+    @Index(name = "SYS_C007688", unique = true, columnList = "NAME ASC, BOOK_ID ASC")
 })
 public class BookToBookStoreRecord extends UpdatableRecordImpl<BookToBookStoreRecord> implements Record3<String, BigInteger, BigInteger> {
 
-    private static final long serialVersionUID = 84265700;
+    private static final long serialVersionUID = -1797115371;
 
     /**
      * Setter for <code>JOOQDATA.BOOK_TO_BOOK_STORE.NAME</code>.
