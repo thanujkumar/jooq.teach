@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Book extends TableImpl<BookRecord> {
 
-    private static final long serialVersionUID = 570346019;
+    private static final long serialVersionUID = -1201119429;
 
     /**
      * The reference instance of <code>JOOQDATA.BOOK</code>
@@ -126,7 +126,7 @@ public class Book extends TableImpl<BookRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.SYS_C007681);
+        return Arrays.<Index>asList(Indexes.SYS_C008008);
     }
 
     /**
@@ -134,7 +134,7 @@ public class Book extends TableImpl<BookRecord> {
      */
     @Override
     public UniqueKey<BookRecord> getPrimaryKey() {
-        return Keys.SYS_C007681;
+        return Keys.SYS_C008008;
     }
 
     /**
@@ -142,7 +142,7 @@ public class Book extends TableImpl<BookRecord> {
      */
     @Override
     public List<UniqueKey<BookRecord>> getKeys() {
-        return Arrays.<UniqueKey<BookRecord>>asList(Keys.SYS_C007681);
+        return Arrays.<UniqueKey<BookRecord>>asList(Keys.SYS_C008008);
     }
 
     /**

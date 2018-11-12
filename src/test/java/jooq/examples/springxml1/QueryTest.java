@@ -14,19 +14,19 @@ import org.jooq.Record3;
 import org.jooq.Result;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import jooq.examples.generated.tables.Author;
 import jooq.examples.generated.tables.Book;
 import jooq.examples.generated.tables.BookStore;
 import jooq.examples.generated.tables.BookToBookStore;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-@RunWith(JUnitPlatform.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(JUnitPlatform.class) //TODO - still issue getting dsl injected from spring with JUnit 5
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:springxml-1-nonxa-config.xml")
 public class QueryTest  {
@@ -49,12 +49,12 @@ public class QueryTest  {
 				.join(t).on(t.BOOK_ID.eq(b.ID.cast(BigInteger.class))).join(s).on(t.NAME.eq(s.NAME))
 				.groupBy(a.FIRST_NAME, a.LAST_NAME).orderBy(countDistinct(s.NAME).desc()).fetch();
 		
-		assertEquals(1, result.size());
+		assertEquals(2, result.size());
 		assertEquals("Paulo", result.getValue(0, a.FIRST_NAME));
 		//assertEquals("George", result.getValue(1, a.FIRST_NAME));
 		assertEquals("Coelho", result.getValue(0, a.LAST_NAME));
 		//assertEquals("Orwell", result.getValue(1, a.LAST_NAME));
-		assertEquals(Integer.valueOf(1), result.getValue(0, countDistinct(s.NAME)));
+		assertEquals(Integer.valueOf(3), result.getValue(0, countDistinct(s.NAME)));
 		//assertEquals(Integer.valueOf(2), result.getValue(1, countDistinct(s.NAME)));
 	}
 	

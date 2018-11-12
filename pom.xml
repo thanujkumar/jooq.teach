@@ -101,6 +101,20 @@
 			<artifactId>dms</artifactId>
 			<version>3.0</version>
 		</dependency>
+   
+        <!--  JPA API  -->
+        <dependency>
+         <groupId>javax.persistence</groupId>
+         <artifactId>javax.persistence-api</artifactId>
+         <version>2.2</version>
+        </dependency>
+        
+        <!-- simple flat mapper -->
+		<dependency>
+			<groupId>org.simpleflatmapper</groupId>
+			<artifactId>sfm-jooq</artifactId>
+			<version>6.0.5</version>
+		</dependency>
 
 		<!-- Simple logging using sl4j -->
 		<!-- dependency>

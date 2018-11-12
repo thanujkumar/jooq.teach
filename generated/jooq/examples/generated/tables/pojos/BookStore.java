@@ -26,11 +26,11 @@ import javax.persistence.Table;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "BOOK_STORE", schema = "JOOQDATA", indexes = {
-    @Index(name = "SYS_C007685", unique = true, columnList = "NAME ASC")
+    @Index(name = "SYS_C008012", unique = true, columnList = "NAME ASC")
 })
 public class BookStore implements Serializable {
 
-    private static final long serialVersionUID = 1920630526;
+    private static final long serialVersionUID = 2085527355;
 
     private String name;
 

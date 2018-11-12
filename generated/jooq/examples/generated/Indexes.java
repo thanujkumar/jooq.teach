@@ -34,21 +34,21 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index SYS_C007675 = Indexes0.SYS_C007675;
-    public static final Index SYS_C007681 = Indexes0.SYS_C007681;
-    public static final Index SYS_C007685 = Indexes0.SYS_C007685;
-    public static final Index SYS_C007688 = Indexes0.SYS_C007688;
-    public static final Index SYS_C007672 = Indexes0.SYS_C007672;
+    public static final Index SYS_C008002 = Indexes0.SYS_C008002;
+    public static final Index SYS_C008008 = Indexes0.SYS_C008008;
+    public static final Index SYS_C008012 = Indexes0.SYS_C008012;
+    public static final Index SYS_C008015 = Indexes0.SYS_C008015;
+    public static final Index SYS_C007999 = Indexes0.SYS_C007999;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
-        public static Index SYS_C007675 = Internal.createIndex("SYS_C007675", Author.AUTHOR, new OrderField[] { Author.AUTHOR.ID }, true);
-        public static Index SYS_C007681 = Internal.createIndex("SYS_C007681", Book.BOOK, new OrderField[] { Book.BOOK.ID }, true);
-        public static Index SYS_C007685 = Internal.createIndex("SYS_C007685", BookStore.BOOK_STORE, new OrderField[] { BookStore.BOOK_STORE.NAME }, true);
-        public static Index SYS_C007688 = Internal.createIndex("SYS_C007688", BookToBookStore.BOOK_TO_BOOK_STORE, new OrderField[] { BookToBookStore.BOOK_TO_BOOK_STORE.NAME, BookToBookStore.BOOK_TO_BOOK_STORE.BOOK_ID }, true);
-        public static Index SYS_C007672 = Internal.createIndex("SYS_C007672", Language.LANGUAGE, new OrderField[] { Language.LANGUAGE.ID }, true);
+        public static Index SYS_C008002 = Internal.createIndex("SYS_C008002", Author.AUTHOR, new OrderField[] { Author.AUTHOR.ID }, true);
+        public static Index SYS_C008008 = Internal.createIndex("SYS_C008008", Book.BOOK, new OrderField[] { Book.BOOK.ID }, true);
+        public static Index SYS_C008012 = Internal.createIndex("SYS_C008012", BookStore.BOOK_STORE, new OrderField[] { BookStore.BOOK_STORE.NAME }, true);
+        public static Index SYS_C008015 = Internal.createIndex("SYS_C008015", BookToBookStore.BOOK_TO_BOOK_STORE, new OrderField[] { BookToBookStore.BOOK_TO_BOOK_STORE.NAME, BookToBookStore.BOOK_TO_BOOK_STORE.BOOK_ID }, true);
+        public static Index SYS_C007999 = Internal.createIndex("SYS_C007999", Language.LANGUAGE, new OrderField[] { Language.LANGUAGE.ID }, true);
     }
 }

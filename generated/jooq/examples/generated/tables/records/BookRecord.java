@@ -33,11 +33,11 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
 @Table(name = "BOOK", schema = "JOOQDATA", indexes = {
-    @Index(name = "SYS_C007681", unique = true, columnList = "ID ASC")
+    @Index(name = "SYS_C008008", unique = true, columnList = "ID ASC")
 })
 public class BookRecord extends UpdatableRecordImpl<BookRecord> implements Record5<Integer, Integer, String, Integer, Integer> {
 
-    private static final long serialVersionUID = 1953393525;
+    private static final long serialVersionUID = -1973108643;
 
     /**
      * Setter for <code>JOOQDATA.BOOK.ID</code>.
