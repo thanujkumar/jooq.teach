@@ -1,310 +1,301 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
 
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>learn.jooq</groupId>
-	<artifactId>jooq.examples</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+    <groupId>learn.jooq</groupId>
+    <artifactId>jooq.examples</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
-	<properties>
-		<!-- Compiler properties for maven -->
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<encoding>UTF-8</encoding>
-		<project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
-		<project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
+    <properties>
+        <!-- Compiler properties for maven -->
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+        <project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
 
-		<surefire.version>2.22.0</surefire.version>
-		<selenium.java.version>3.13.0</selenium.java.version>
-		<junit.version>5.1.0</junit.version>
-		<junit5.platform>1.1.0</junit5.platform>
-		<jooq.version>3.11.5</jooq.version>
-		<oracle.driver.version>12.2.0.1</oracle.driver.version>
-		<springframework.version>5.1.0.RELEASE</springframework.version>
-		<sl4j.version>1.7.25</sl4j.version>
-		
-		<db.url>jdbc:oracle:thin:@(DESCRIPTION=(SOURCE_ROUTE=YES) (ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orcl)))</db.url>
-		<db.user>jooqdata</db.user>
-		<db.password>jooqdata</db.password>
-		<oracle.driver>oracle.jdbc.OracleDriver</oracle.driver>
-	</properties>
+        <surefire.version>2.22.0</surefire.version>
+        <junit.version>5.7.2</junit.version>
+        <junit.vintage.version>5.7.2</junit.vintage.version>
+        <junit5.platform>1.7.2</junit5.platform>
+        <jooq.version>3.14.12</jooq.version>
+        <!-- This is to shift between pro and community version of jooq, by default community version is used, you could pass -Djooq.release=org.jooq.pro  -Djooq.release=org.jooq.trial-->
+        <jooq.release>org.jooq</jooq.release>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.jooq.trial</groupId>
-			<artifactId>jooq</artifactId>
-			<version>${jooq.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jooq.trial</groupId>
-			<artifactId>jooq-codegen</artifactId>
-			<version>${jooq.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jooq.trial</groupId>
-			<artifactId>jooq-codegen-maven</artifactId>
-			<version>${jooq.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jooq.trial</groupId>
-			<artifactId>jooq-meta</artifactId>
-			<version>${jooq.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jooq.trial</groupId>
-			<artifactId>jooq-meta-extensions</artifactId>
-			<version>${jooq.version}</version>
-		</dependency>
+        <oracle.driver.version>21.1.0.0</oracle.driver.version>
+        <springframework.version>5.3.8</springframework.version>
+        <sl4j.version>1.7.25</sl4j.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <sfm.jooq.version>8.2.3</sfm.jooq.version>
+
+        <db.url>jdbc:oracle:thin:@(DESCRIPTION=(SOURCE_ROUTE=YES)
+            (ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orcl)))
+        </db.url>
+        <db.user>jooqdata</db.user>
+        <db.password>jooqdata</db.password>
+        <oracle.driver>oracle.jdbc.OracleDriver</oracle.driver>
+
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>${jooq.release}</groupId>
+            <artifactId>jooq</artifactId>
+            <version>${jooq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${jooq.release}</groupId>
+            <artifactId>jooq-codegen</artifactId>
+            <version>${jooq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${jooq.release}</groupId>
+            <artifactId>jooq-codegen-maven</artifactId>
+            <version>${jooq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${jooq.release}</groupId>
+            <artifactId>jooq-meta</artifactId>
+            <version>${jooq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${jooq.release}</groupId>
+            <artifactId>jooq-meta-extensions</artifactId>
+            <version>${jooq.version}</version>
+        </dependency>
 
 
+        <!-- Spring (transitive dependencies are not listed explicitly) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
 
-		<!-- Spring (transitive dependencies are not listed explicitly) -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aspects</artifactId>
-			<version>${springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${springframework.version}</version>
-		</dependency>
-		
+        <!-- oracle driver 21c -->
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc11-production</artifactId>
+            <version>${oracle.driver.version}</version>
+            <type>pom</type>
+        </dependency>
 
-        <!-- mvn install:install-file -Dfile=ons-12.1.0.2.jar  -DgroupId=com.oracle.jdbc -DartifactId=ons -Dversion=12.1.0.2 -Dpackaging=jar -->
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc8</artifactId>
-			<version>${oracle.driver.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.oracle.jdbc</groupId>
-			<artifactId>ucp</artifactId>
-			<version>${oracle.driver.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.oracle.jdbc</groupId>
-			<artifactId>ons</artifactId>
-			<version>12.1.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>dms</artifactId>
-			<version>3.0</version>
-		</dependency>
-   
+
         <!--  JPA API  -->
         <dependency>
-         <groupId>javax.persistence</groupId>
-         <artifactId>javax.persistence-api</artifactId>
-         <version>2.2</version>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>2.2</version>
         </dependency>
-        
+
         <!-- simple flat mapper -->
-		<dependency>
-			<groupId>org.simpleflatmapper</groupId>
-			<artifactId>sfm-jooq</artifactId>
-			<version>6.0.5</version>
-		</dependency>
+        <dependency>
+            <groupId>org.simpleflatmapper</groupId>
+            <artifactId>sfm-jooq</artifactId>
+            <version>${sfm.jooq.version}</version>
+        </dependency>
 
-		<!-- Simple logging using sl4j -->
-		<!-- dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>${sl4j.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+        <!-- Simple logging using sl4j -->
+        <!-- dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${sl4j.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${sl4j.version}</version>
-		</dependency -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${sl4j.version}</version>
+        </dependency -->
 
-		<!-- Testing -->
-		<!-- https://www.petrikainulainen.net/programming/testing/junit-5-tutorial-running-unit-tests-with-maven/ -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-	
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-launcher</artifactId>
-			<version>${junit5.platform}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-runner</artifactId>
-			<version>${junit5.platform}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${springframework.version}</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+        <!-- Testing -->
+        <!-- https://www.petrikainulainen.net/programming/testing/junit-5-tutorial-running-unit-tests-with-maven/ -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-	<build>
-	
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<forceJavacCompilerUse>true</forceJavacCompilerUse>
-						<source>1.8</source>
-						<target>1.8</target>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>versions-maven-plugin</artifactId>
-					<version>2.2</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-scm-plugin</artifactId>
-					<version>1.9.4</version>
-					<configuration>
-						<tag>${project.artifactId}-${project.version}</tag>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${surefire.version}</version>
-				<configuration>
-					<argLine>-Dfile.encoding=UTF-8</argLine>
-				</configuration>
-			</plugin>
-			<!--  flyway plugin -->
-			<plugin>
-			  <groupId>org.flywaydb</groupId>
-			  <artifactId>flyway-maven-plugin</artifactId>
-			  <version>5.2.1</version>
-			  <executions>
-			    <execution>
-			      <phase>generate-sources</phase>
-			      <goals>
-			        <goal>clean</goal>
-			        <goal>migrate</goal>
-			      </goals>
-			    </execution>
-			  </executions>
-			  <configuration>
-			     <sqlMigrationSeparator>__</sqlMigrationSeparator>
-			     <url>${db.url}</url>
-			     <user>${db.user}</user>
-			     <password>${db.password}</password>
-			     <baselineOnMigrate>true</baselineOnMigrate>
-			     <encoding>UTF-8</encoding>
-			     <locations>
-			       <location>filesystem:src/main/resources/db/migration/</location>
-			     </locations>
-			     <table>jooq_schema_version</table>
-			  </configuration>
-			  <dependencies>
-				<dependency>
-					<groupId>com.oracle</groupId>
-					<artifactId>ojdbc8</artifactId>
-					<version>${oracle.driver.version}</version>
-				</dependency>
-			  </dependencies>
-			</plugin>
-			
-			<!-- Jooq schema to code generation plugin -->
-			<plugin>
-			  <groupId>org.jooq.trial</groupId>
-			  <artifactId>jooq-codegen-maven</artifactId>
-			  <version>${jooq.version}</version>
-			  <executions>
-			     <execution>
-			       <phase>generate-sources</phase>
-			       <goals>
-			          <goal>generate</goal>
-			       </goals>
-			     </execution>
-			  </executions>
-			  <configuration>
-			      <jdbc>
-			         <driver>${oracle.driver}</driver>
-			         <url>${db.url}</url>
-			         <password>${db.password}</password>
-			         <user>${db.user}</user>
-			         <schema>jooqdata</schema>
-			      </jdbc>
-			      <generator>
-			        <database>
-			           <name>org.jooq.meta.oracle.OracleDatabase</name>
-			           <inputSchema>jooqdata</inputSchema>
-			           <recordVersionFields>VERSION</recordVersionFields>
-			           <recordTimestampFields>UPDATED_DT</recordTimestampFields>
-			           <unsignedTypes>true</unsignedTypes>
-			           <excludes>
-			              jooq_schema.*
-			           </excludes>
-			        </database>
-			        <generate>
-				      <javaTimeTypes>true</javaTimeTypes>
-	                  <jpaAnnotations>true</jpaAnnotations>
-	                  <jpaVersion>2.2</jpaVersion>
-	                  <pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
-	                  <pojos>true</pojos>
-	                  <daos>true</daos>
-	                  <validationAnnotations>false</validationAnnotations>
-	                  <springAnnotations>true</springAnnotations>
-			        </generate>
-			        <target>
-			          <packageName>jooq.examples.generated</packageName>
-			          <directory>./generated</directory>
-			        </target>
-			      </generator>
-			  </configuration>
-			  <dependencies>
-				<dependency>
-					<groupId>com.oracle</groupId>
-					<artifactId>ojdbc8</artifactId>
-					<version>${oracle.driver.version}</version>
-				</dependency>
-			  </dependencies>
-			</plugin>
-		</plugins>
-	</build>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${junit.vintage.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>${junit5.platform}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>${junit5.platform}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${springframework.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>1.11.2</version>
+                <configuration>
+                    <tag>${project.artifactId}-${project.version}</tag>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+                <configuration>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
+                </configuration>
+            </plugin>
+            <!--  flyway plugin -->
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>7.11.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>clean</goal>
+                            <goal>migrate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sqlMigrationSeparator>__</sqlMigrationSeparator>
+                    <url>${db.url}</url>
+                    <user>${db.user}</user>
+                    <password>${db.password}</password>
+                    <baselineOnMigrate>true</baselineOnMigrate>
+                    <encoding>UTF-8</encoding>
+                    <locations>
+                        <location>filesystem:src/main/resources/db/migration/</location>
+                    </locations>
+                    <table>jooq_schema_version</table>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.oracle.database.jdbc</groupId>
+                        <artifactId>ojdbc11</artifactId>
+                        <version>${oracle.driver.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!-- Jooq schema to code generation plugin -->
+            <plugin>
+                <groupId>${jooq.release}</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <version>${jooq.version}</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <jdbc>
+                        <driver>${oracle.driver}</driver>
+                        <url>${db.url}</url>
+                        <password>${db.password}</password>
+                        <user>${db.user}</user>
+                        <schema>jooqdata</schema>
+                    </jdbc>
+                    <generator>
+                        <database>
+                            <name>org.jooq.meta.oracle.OracleDatabase</name>
+                            <inputSchema>jooqdata</inputSchema>
+                            <recordVersionFields>VERSION</recordVersionFields>
+                            <recordTimestampFields>UPDATED_DT</recordTimestampFields>
+                            <unsignedTypes>true</unsignedTypes>
+                            <excludes>
+                                jooq_schema.*
+                            </excludes>
+                        </database>
+                        <generate>
+                            <javaTimeTypes>true</javaTimeTypes>
+                            <jpaAnnotations>true</jpaAnnotations>
+                            <comments>true</comments>
+                            <jpaVersion>2.2</jpaVersion>
+                            <pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
+                            <pojos>true</pojos>
+                            <daos>true</daos>
+                            <validationAnnotations>false</validationAnnotations>
+                            <springAnnotations>true</springAnnotations>
+                        </generate>
+                        <target>
+                            <packageName>jooq.examples.generated</packageName>
+                            <directory>./generated</directory>
+                        </target>
+                    </generator>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.oracle.database.jdbc</groupId>
+                        <artifactId>ojdbc11</artifactId>
+                        <version>${oracle.driver.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
