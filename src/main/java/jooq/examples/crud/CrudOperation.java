@@ -13,17 +13,20 @@ import org.jooq.impl.DSL;
 import jooq.examples.generated.tables.records.AuthorRecord;
 import jooq.examples.oracle.InitializeOracleSettings;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 public class CrudOperation extends InitializeOracleSettings {
 
 	public static void main(String[] args) throws Exception {
 		Settings settings = new Settings();
-		settings.setRenderNameStyle(RenderNameStyle.AS_IS);
+		//settings.setRenderNameStyle(RenderNameStyle.AS_IS);
 		
 		createPool();
 		
 		XAConnection xacon = pool.getXAConnection();
 		
-		DSLContext create = DSL.using(xacon.getConnection(), SQLDialect.ORACLE12C, settings);
+		DSLContext create = DSL.using(xacon.getConnection(), SQLDialect.ORACLE20C, settings);
 		
 		AuthorRecord author = create.fetchOne(AUTHOR, AUTHOR.ID.eq(4));
 		
@@ -33,6 +36,8 @@ public class CrudOperation extends InitializeOracleSettings {
 			author.setId(4);
 			author.setFirstName("Thanuj");
 			author.setLastName("Kumar");
+			author.setCreatedBy("thanuj");
+			author.setCreatedTs(LocalDateTime.now());
 		}
 		
 		author.setDistinguished((byte) 1);

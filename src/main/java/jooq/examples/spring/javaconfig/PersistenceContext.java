@@ -89,7 +89,7 @@ public class PersistenceContext {
 		 DefaultConfiguration jooqConfig = new DefaultConfiguration();
 		 jooqConfig.setConnectionProvider(connectionProvider());
 		 jooqConfig.setTransactionProvider(jooqTransactionProvider());
-		 jooqConfig.setSQLDialect(SQLDialect.valueOf(env.getProperty("jooq.sql.dialect", SQLDialect.ORACLE12C.getName())));
+		 jooqConfig.setSQLDialect(SQLDialect.valueOf(env.getProperty("jooq.sql.dialect", SQLDialect.ORACLE20C.getName())));
 		 jooqConfig.setExecuteListenerProvider(new DefaultExecuteListenerProvider(jooqToSpringExceptionTransformer()), 
 				 new DefaultExecuteListenerProvider(new QueryPerformanceListener()));
 		 

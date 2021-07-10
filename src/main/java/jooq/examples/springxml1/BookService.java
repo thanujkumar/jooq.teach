@@ -11,6 +11,6 @@ public interface BookService {
 	 * and roll back the transaction.
 	 */
 	@Transactional
-	void create(int id, int authorId, String title);
+	void create(int id, int authorId, String title, String createdBy);
 
 }

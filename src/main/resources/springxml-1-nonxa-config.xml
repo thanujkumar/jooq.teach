@@ -1,87 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:ctx="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx.xsd
+         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        ">
 
-	<!-- This is needed if you want to use the @Transactional annotation -->
-	<tx:annotation-driven transaction-manager="transactionManager" />
+    <!-- This is needed if you want to use the @Transactional annotation -->
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!-- Used for shutdown -->
-    
-    <bean id="ucpm" class="oracle.ucp.admin.UniversalConnectionPoolManagerImpl" factory-method="getUniversalConnectionPoolManager" />
-    
-    <!-- Another way to create datasource -->   
-	<!-- bean id="dataSource" class="oracle.ucp.jdbc.PoolDataSourceFactory" factory-method="getPoolDataSource" /-->
+
+    <bean id="ucpm" class="oracle.ucp.admin.UniversalConnectionPoolManagerImpl"
+          factory-method="getUniversalConnectionPoolManager"/>
+
+    <!-- Another way to create datasource -->
+    <!-- bean id="dataSource" class="oracle.ucp.jdbc.PoolDataSourceFactory" factory-method="getPoolDataSource" /-->
 
     <!-- Can't use XA configuration with current transaction manager -->
 
-	<bean id="dataSource" class="oracle.ucp.jdbc.PoolDataSourceImpl"> <!-- non xa oracle.ucp.jdbc.PoolDataSourceImpl xa: oracle.ucp.jdbc.PoolXADataSourceImpl-->
-		<property name="connectionFactoryClassName" value="oracle.jdbc.pool.OracleDataSource" /> <!-- non xa oracle.jdbc.pool.OracleDataSource , xa: oracle.jdbc.xa.client.OracleXADataSource-->
-		<property name="URL" value="jdbc:oracle:thin:@(DESCRIPTION=(SOURCE_ROUTE=YES) (ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orcl)))" />
-		<property name="user" value="jooqdata" />
-		<property name="password" value="jooqdata" />
-		<property name="maxPoolSize" value="10" />
-		<property name="initialPoolSize" value="5" />
-		<property name="connectionPoolName" value="ORA_XA_UCP" />
-	</bean>
+    <bean id="dataSource"
+          class="oracle.ucp.jdbc.PoolDataSourceImpl"> <!-- non xa oracle.ucp.jdbc.PoolDataSourceImpl xa: oracle.ucp.jdbc.PoolXADataSourceImpl-->
+        <property name="connectionFactoryClassName"
+                  value="oracle.jdbc.pool.OracleDataSource"/> <!-- non xa oracle.jdbc.pool.OracleDataSource , xa: oracle.jdbc.xa.client.OracleXADataSource-->
+        <property name="URL"
+                  value="jdbc:oracle:thin:@(DESCRIPTION=(SOURCE_ROUTE=YES) (ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orcl)))"/>
+        <property name="user" value="jooqdata"/>
+        <property name="password" value="jooqdata"/>
+        <property name="maxPoolSize" value="10"/>
+        <property name="initialPoolSize" value="5"/>
+        <property name="connectionPoolName" value="ORA_XA_UCP"/>
+    </bean>
 
-	<!-- Configure Spring's transaction manager to use a DataSource, this is not XA -->
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
+    <!-- Configure Spring's transaction manager to use a DataSource, this is not XA -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
-	<!-- Configure jOOQ's ConnectionProvider to use Spring's TransactionAwareDataSourceProxy, which can dynamically discover the transaction context -->
-	<bean id="transactionAwareDataSource" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
-		<constructor-arg ref="dataSource" />
-	</bean>
+    <!-- Configure jOOQ's ConnectionProvider to use Spring's TransactionAwareDataSourceProxy, which can dynamically discover the transaction context -->
+    <bean id="transactionAwareDataSource" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+        <constructor-arg ref="dataSource"/>
+    </bean>
 
-	<bean class="org.jooq.impl.DataSourceConnectionProvider" name="connectionProvider">
-		<constructor-arg ref="transactionAwareDataSource" />
-	</bean>
+    <bean class="org.jooq.impl.DataSourceConnectionProvider" name="connectionProvider">
+        <constructor-arg ref="transactionAwareDataSource"/>
+    </bean>
 
-	<!-- Configure the DSL object, optionally overriding jOOQ Exceptions with Spring Exceptions -->
-	<bean id="dsl" class="org.jooq.impl.DefaultDSLContext">
-		<constructor-arg ref="config" />
-	</bean>
+    <!-- Configure the DSL object, optionally overriding jOOQ Exceptions with Spring Exceptions -->
+    <bean id="dsl" class="org.jooq.impl.DefaultDSLContext">
+        <constructor-arg ref="config"/>
+    </bean>
 
-	<bean id="exceptionTranslator" class="jooq.examples.springxml1.ExceptionTranslator" />
+    <bean id="exceptionTranslator" class="jooq.examples.springxml1.ExceptionTranslator"/>
 
 
-	<!-- Configure jOOQ's TransactionProvider as a proxy to Spring's transaction manager -->
-	<bean id="transactionProvider" class="jooq.examples.springxml1.SpringTransactionProvider">
-	</bean>
+    <!-- Configure jOOQ's TransactionProvider as a proxy to Spring's transaction manager -->
+    <bean id="transactionProvider" class="jooq.examples.springxml1.SpringTransactionProvider">
+    </bean>
 
-   
-   <bean id="queryPerf" class="jooq.examples.tools.QueryPerformanceListener"/>
-   
-	<!-- Invoking an internal, package-private constructor for the example Implement your own Configuration for more reliable behaviour -->
-	<bean class="org.jooq.impl.DefaultConfiguration" name="config">
-		<property name="SQLDialect">
-			<value type="org.jooq.SQLDialect">ORACLE12C</value>
-		</property>
-		<property name="connectionProvider" ref="connectionProvider" />
-		<!--  property name="transactionProvider" ref="transactionProvider"/ -->
-		<property name="executeListenerProvider">
-			<array>
-				<bean class="org.jooq.impl.DefaultExecuteListenerProvider">
-					<constructor-arg index="0" ref="exceptionTranslator" />
-				</bean>
-				<bean class="org.jooq.impl.DefaultExecuteListenerProvider">
-				    <constructor-arg index="0" ref="queryPerf"/>
-				</bean>
-				
-			</array>
-		</property>
-		<property name="settings">
-		  <bean class="org.jooq.conf.Settings">
-		   <property name="renderNameStyle" value="#{T(org.jooq.conf.RenderNameStyle).AS_IS}"/>
-		   <property name="renderFormatted" value="true" />
-		   <property name="executeLogging" value="false" /> <!-- https://www.jooq.org/doc/latest/manual/sql-execution/logging/ -->
-		  </bean>
-		</property>
-	</bean>
-	
-	<bean id="books" class="jooq.examples.springxml1.DefaultBookService"/>
-	
+
+    <bean id="queryPerf" class="jooq.examples.tools.QueryPerformanceListener"/>
+
+    <!-- Invoking an internal, package-private constructor for the example Implement your own Configuration for more reliable behaviour -->
+    <bean class="org.jooq.impl.DefaultConfiguration" name="config">
+        <property name="SQLDialect">
+            <value type="org.jooq.SQLDialect">ORACLE20C</value>
+        </property>
+        <property name="connectionProvider" ref="connectionProvider"/>
+        <!--  property name="transactionProvider" ref="transactionProvider"/ -->
+        <property name="executeListenerProvider">
+            <array>
+                <bean class="org.jooq.impl.DefaultExecuteListenerProvider">
+                    <constructor-arg index="0" ref="exceptionTranslator"/>
+                </bean>
+                <bean class="org.jooq.impl.DefaultExecuteListenerProvider">
+                    <constructor-arg index="0" ref="queryPerf"/>
+                </bean>
+
+            </array>
+        </property>
+        <property name="settings">
+            <bean class="org.jooq.conf.Settings">
+                <property name="renderNameStyle" value="#{T(org.jooq.conf.RenderNameStyle).AS_IS}"/>
+                <property name="renderFormatted" value="true"/>
+                <property name="executeLogging"
+                          value="false"/> <!-- https://www.jooq.org/doc/latest/manual/sql-execution/logging/ -->
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="books" class="jooq.examples.springxml1.DefaultBookService"/>
+
 </beans>

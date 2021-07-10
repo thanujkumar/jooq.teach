@@ -12,7 +12,7 @@ import org.jooq.impl.DSL;
 public class JOOQDSL {
 	
 	public static void main(String[] args) {
-		DSLContext create = DSL.using(SQLDialect.ORACLE12C);
+		DSLContext create = DSL.using(SQLDialect.ORACLE20C);
 		String sql = create.select(field("BOOK.TITLE"),
 				                   field("AUTHOR.FIRST_NAME"),
 				                   field("AUTHOR.LAST_NAME"))

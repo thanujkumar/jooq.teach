@@ -23,8 +23,9 @@
         <junit.vintage.version>5.7.2</junit.vintage.version>
         <junit5.platform>1.7.2</junit5.platform>
         <jooq.version>3.14.12</jooq.version>
-        <!-- This is to shift between pro and community version of jooq, by default community version is used, you could pass -Djooq.release=org.jooq.pro  -Djooq.release=org.jooq.trial-->
-        <jooq.release>org.jooq</jooq.release>
+        <!-- This is to shift between pro and community version of jooq, by default community version is used, you could pass
+        -Djooq.release=org.jooq.  -Djooq.release=org.jooq.pro  -Djooq.release=org.jooq.trial-->
+        <jooq.release>org.jooq.pro</jooq.release>
 
         <oracle.driver.version>21.1.0.0</oracle.driver.version>
         <springframework.version>5.3.8</springframework.version>
@@ -85,21 +86,44 @@
             <artifactId>spring-jdbc</artifactId>
             <version>${springframework.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
 
         <!-- oracle driver 21c -->
+        <!-- https://www.oracle.com/database/technologies/maven-central-guide.html -->
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc11-production</artifactId>
             <version>${oracle.driver.version}</version>
             <type>pom</type>
         </dependency>
-
+        <dependency>
+            <groupId>com.oracle.database.observability</groupId>
+            <artifactId>ojdbc11-observability</artifactId>
+            <version>${oracle.driver.version}</version>
+            <type>pom</type>
+        </dependency>
 
         <!--  JPA API  -->
         <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>javax.persistence-api</artifactId>
-            <version>2.2</version>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.reactivestreams</groupId>
+            <artifactId>reactive-streams</artifactId>
+            <version>1.0.3</version>
         </dependency>
 
         <!-- simple flat mapper -->
@@ -110,7 +134,7 @@
         </dependency>
 
         <!-- Simple logging using sl4j -->
-        <!-- dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>${sl4j.version}</version>
@@ -126,7 +150,7 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${sl4j.version}</version>
-        </dependency -->
+        </dependency>
 
         <!-- Testing -->
         <!-- https://www.petrikainulainen.net/programming/testing/junit-5-tutorial-running-unit-tests-with-maven/ -->

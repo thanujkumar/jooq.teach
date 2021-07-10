@@ -19,7 +19,7 @@ public class ResultIterator extends InitializeOracleSettings {
 	public static void main(String[] args) throws Exception {
 		createPool();
 		Settings settings = new Settings();
-		settings.setRenderNameStyle(RenderNameStyle.AS_IS);
+		//settings.setRenderNameStyle(RenderNameStyle.AS_IS);
 		XAConnection xacon = pool.getXAConnection();
 		
 		DSLContext create = DSL.using(xacon.getConnection(), SQLDialect.ORACLE12C, settings);
