@@ -18,9 +18,7 @@ public class JooQSQLExecutorFromGenCode extends InitializeOracleSettings {
 	public static void main(String[] args) throws Exception {
 		createPool();
 
-		XAConnection xacon = pool.getXAConnection();
-
-		DSLContext create = DSL.using(xacon.getConnection(), SQLDialect.ORACLE12C);
+		DSLContext create = DSL.using(pool.getConnection(), SQLDialect.ORACLE12C);
 
 		Result<Record3<String, String, String>> result = 
 				     create.select(BOOK.TITLE, AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME)
@@ -31,6 +29,6 @@ public class JooQSQLExecutorFromGenCode extends InitializeOracleSettings {
 		
 		result.forEach(System.out::println);
 		
-		xacon.close();
+		destroyPool();
 	}
 }

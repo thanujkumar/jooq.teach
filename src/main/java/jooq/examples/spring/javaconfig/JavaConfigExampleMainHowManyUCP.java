@@ -1,33 +1,32 @@
 package jooq.examples.spring.javaconfig;
 
-import static jooq.examples.generated.tables.Author.AUTHOR;
-import static jooq.examples.generated.tables.Book.BOOK;
-import static jooq.examples.generated.tables.BookStore.BOOK_STORE;
-import static jooq.examples.generated.tables.BookToBookStore.BOOK_TO_BOOK_STORE;
-import static org.jooq.impl.DSL.countDistinct;
-
-import java.math.BigInteger;
-
-import org.jooq.DSLContext;
-import org.jooq.Record3;
-import org.jooq.Result;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
 import jooq.examples.generated.tables.Author;
 import jooq.examples.generated.tables.Book;
 import jooq.examples.generated.tables.BookStore;
 import jooq.examples.generated.tables.BookToBookStore;
 import oracle.ucp.UniversalConnectionPoolException;
 import oracle.ucp.admin.UniversalConnectionPoolManager;
+import org.jooq.DSLContext;
+import org.jooq.Record3;
+import org.jooq.Result;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import java.math.BigInteger;
+
+import static jooq.examples.generated.tables.Author.AUTHOR;
+import static jooq.examples.generated.tables.Book.BOOK;
+import static jooq.examples.generated.tables.BookStore.BOOK_STORE;
+import static jooq.examples.generated.tables.BookToBookStore.BOOK_TO_BOOK_STORE;
+import static org.jooq.impl.DSL.countDistinct;
 
 //TODO custom transaction provider not working and looks like tx mgr is not used
-public class JavaConfigExampleMain {
+public class JavaConfigExampleMainHowManyUCP {
 
 	public static void main(String[] args) throws UniversalConnectionPoolException {
 		UniversalConnectionPoolManager ucpm = null;
 		try {
-			ApplicationContext ctx = new AnnotationConfigApplicationContext(PersistenceContext.class);
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(PersistenceContext2.class);
 			ucpm = ctx.getBean("universalConnectionPoolManager", UniversalConnectionPoolManager.class);
 
 			//Using DSLContext
@@ -50,7 +49,7 @@ public class JavaConfigExampleMain {
 				System.out.println("+++++++++++ " + name);
 			}
 			Service service = ctx.getBean("serviceImpl", Service.class);
-			service.create(6, 4, "One Book 2", 2018, 1, "thanuj");
+			service.create(7, 4, "One Book 2", 2018, 1, "thanuj");
 
 			//Destroy connection pool
 			oracle.ucp.jdbc.PoolDataSource pool = ctx.getBean("dataSource", oracle.ucp.jdbc.PoolDataSource.class);

@@ -1,6 +1,9 @@
 package jooq.examples.springxml1;
 
+import org.jooq.DSLContext;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 public interface BookService {
 
@@ -13,4 +16,5 @@ public interface BookService {
 	@Transactional
 	void create(int id, int authorId, String title, String createdBy);
 
+	DSLContext getDsl();
 }

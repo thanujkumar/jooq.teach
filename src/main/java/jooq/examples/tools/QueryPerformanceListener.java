@@ -9,24 +9,25 @@ import org.jooq.tools.StopWatch;
  */
 public class QueryPerformanceListener extends DefaultExecuteListener {
 
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	StopWatch watch;
+    //https://www.jooq.org/doc/3.15/manual/getting-started/use-cases/jooq-for-pros/
 
-	@Override
-	public void executeStart(ExecuteContext ctx) {
-		super.executeStart(ctx);
-		watch = new StopWatch();
-	}
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    StopWatch watch;
 
-	@Override
-	public void executeEnd(ExecuteContext ctx) {
-		
-		super.executeEnd(ctx);
-			System.out.println("Performance of SQL \n"
-					 + ctx.query() +"\n took "+ StopWatch.format(watch.split()));
-	}
+    @Override
+    public void executeStart(ExecuteContext ctx) {
+        super.executeStart(ctx);
+        watch = new StopWatch();
+    }
+
+    @Override
+    public void executeEnd(ExecuteContext ctx) {
+
+        super.executeEnd(ctx);
+        System.out.println("Performance of SQL \n"
+                + ctx.query() + "\n took " + StopWatch.format(watch.split()));
+    }
 }

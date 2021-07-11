@@ -1,9 +1,9 @@
 package jooq.examples.spring.javaconfig;
 
+
 import java.sql.SQLException;
 import java.util.logging.Level;
 
-import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
 import org.jooq.SQLDialect;
@@ -12,7 +12,6 @@ import org.jooq.impl.DataSourceConnectionProvider;
 import org.jooq.impl.DefaultConfiguration;
 import org.jooq.impl.DefaultDSLContext;
 import org.jooq.impl.DefaultExecuteListenerProvider;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -36,7 +35,7 @@ import oracle.ucp.jdbc.PoolDataSourceFactory;
 @ComponentScan("jooq.examples.spring.javaconfig")
 @EnableTransactionManagement
 @PropertySource("classpath:spring-nonxa-config.properties")
-public class PersistenceContext {
+public class PersistenceContext2 {
 
     @Autowired
     Environment env;
@@ -50,8 +49,8 @@ public class PersistenceContext {
         pool.setURL(env.getRequiredProperty("db.url"));
         pool.setUser(env.getRequiredProperty("db.username"));
         pool.setPassword(env.getRequiredProperty("db.password"));
-        pool.setInitialPoolSize(env.getProperty("db.initial.poolsize", int.class, 5));
-        pool.setMaxPoolSize(env.getProperty("db.max.poolsize", int.class, 10));
+        pool.setInitialPoolSize(env.getProperty("db.initial.poolsize",int.class,5));
+        pool.setMaxPoolSize(env.getProperty("db.max.poolsize", int.class,10));
         pool.setFastConnectionFailoverEnabled(true);
 
         pool.setValidateConnectionOnBorrow(true);
@@ -67,18 +66,18 @@ public class PersistenceContext {
     }
 
     @Bean
-    public TransactionAwareDataSourceProxy transactionAwareDataSource(DataSource dataSource) throws SQLException {
-        return new TransactionAwareDataSourceProxy(dataSource);
+    public TransactionAwareDataSourceProxy transactionAwareDataSource() throws SQLException {
+        return new TransactionAwareDataSourceProxy(dataSource()); // above method called, does it create new pool?
     }
 
     @Bean
-    public DataSourceTransactionManager transactionManager(DataSource dataSource) throws SQLException {
-        return new DataSourceTransactionManager(dataSource);
+    public DataSourceTransactionManager transactionManager() throws SQLException {
+        return new DataSourceTransactionManager(dataSource()); // above method called, does it create new pool?
     }
 
     @Bean
-    public DataSourceConnectionProvider connectionProvider(DataSource dataSource) throws SQLException {
-        return new DataSourceConnectionProvider(transactionAwareDataSource(dataSource));
+    public DataSourceConnectionProvider connectionProvider() throws SQLException {
+        return new DataSourceConnectionProvider(transactionAwareDataSource());
     }
 
     @Bean
@@ -87,10 +86,10 @@ public class PersistenceContext {
     }
 
     @Bean
-    public DefaultConfiguration configuration(DataSource dataSource) throws SQLException {
+    public DefaultConfiguration configuration() throws SQLException {
         DefaultConfiguration jooqConfig = new DefaultConfiguration();
-        jooqConfig.setConnectionProvider(connectionProvider(dataSource));
-        jooqConfig.setTransactionProvider(jooqTransactionProvider(dataSource));
+        jooqConfig.setConnectionProvider(connectionProvider());
+        jooqConfig.setTransactionProvider(jooqTransactionProvider());
         jooqConfig.setSQLDialect(SQLDialect.valueOf(env.getProperty("jooq.sql.dialect", SQLDialect.ORACLE20C.getName())));
         jooqConfig.setExecuteListenerProvider(new DefaultExecuteListenerProvider(jooqToSpringExceptionTransformer()),
                 new DefaultExecuteListenerProvider(new QueryPerformanceListener()));
@@ -100,13 +99,13 @@ public class PersistenceContext {
     }
 
     @Bean
-    public DefaultDSLContext dsl(DataSource dataSource) throws SQLException {
-        return new DefaultDSLContext(configuration(dataSource));
+    public DefaultDSLContext dsl() throws SQLException {
+        return new DefaultDSLContext(configuration());
     }
 
     // Configure jOOQ's TransactionProvider as a proxy to Spring's transaction manager
     @Bean
-    public TransactionProvider jooqTransactionProvider(DataSource dataSource) throws SQLException {
-        return new CustomTransactionProvider(transactionManager(dataSource));
+    public TransactionProvider jooqTransactionProvider() throws SQLException {
+        return new CustomTransactionProvider(transactionManager());
     }
 }

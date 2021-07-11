@@ -16,11 +16,10 @@ import jooq.examples.oracle.InitializeOracleSettings;
 public class JooQSQLExecutor extends InitializeOracleSettings {
 
 	public static void main(String[] args) throws Exception {
+
 		createPool();
-		XAConnection xacon = pool.getXAConnection();
-		
-		
-		DSLContext create = DSL.using(xacon.getConnection(), SQLDialect.ORACLE12C);
+
+		DSLContext create = DSL.using(pool.getConnection(), SQLDialect.ORACLE12C);
 		Result<Record3<Object, Object, Object>> result =  create.select(field("BOOK.TITLE"),
                                                    field("AUTHOR.FIRST_NAME"),
                                                    field("AUTHOR.LAST_NAME"))
@@ -30,8 +29,7 @@ public class JooQSQLExecutor extends InitializeOracleSettings {
                                                    .where(field("BOOK.PUBLISHED_IN").eq(1948)).fetch();
 		result.forEach(x -> System.out.println(x));
 		
-		xacon.close();
-		
+		destroyPool();
 	}
 
 }

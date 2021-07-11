@@ -20,9 +20,8 @@ public class ResultIterator extends InitializeOracleSettings {
 		createPool();
 		Settings settings = new Settings();
 		//settings.setRenderNameStyle(RenderNameStyle.AS_IS);
-		XAConnection xacon = pool.getXAConnection();
-		
-		DSLContext create = DSL.using(xacon.getConnection(), SQLDialect.ORACLE12C, settings);
+
+		DSLContext create = DSL.using(pool.getConnection(), SQLDialect.ORACLE20C, settings);
 		
 		Result<Record> result = create.select().from(AUTHOR).fetch();
 		
@@ -33,6 +32,6 @@ public class ResultIterator extends InitializeOracleSettings {
 			System.out.println("ID: " + id + " first name: " + firstName + " last name: " + lastName);
 		}
 		
-		xacon.close();
+		destroyPool();
 	}
 }
