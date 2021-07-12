@@ -1,18 +1,17 @@
 package jooq.examples.spring.javaconfig;
 
-import java.sql.SQLException;
-import java.util.logging.Level;
-
-import javax.annotation.PreDestroy;
-import javax.sql.DataSource;
-
+import jooq.examples.tools.QueryPerformanceListener;
+import oracle.ucp.UniversalConnectionPoolException;
+import oracle.ucp.admin.UniversalConnectionPoolManager;
+import oracle.ucp.admin.UniversalConnectionPoolManagerImpl;
+import oracle.ucp.jdbc.PoolDataSource;
+import oracle.ucp.jdbc.PoolDataSourceFactory;
 import org.jooq.SQLDialect;
 import org.jooq.TransactionProvider;
 import org.jooq.impl.DataSourceConnectionProvider;
 import org.jooq.impl.DefaultConfiguration;
 import org.jooq.impl.DefaultDSLContext;
 import org.jooq.impl.DefaultExecuteListenerProvider;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,12 +22,9 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import jooq.examples.tools.QueryPerformanceListener;
-import oracle.ucp.UniversalConnectionPoolException;
-import oracle.ucp.admin.UniversalConnectionPoolManager;
-import oracle.ucp.admin.UniversalConnectionPoolManagerImpl;
-import oracle.ucp.jdbc.PoolDataSource;
-import oracle.ucp.jdbc.PoolDataSourceFactory;
+import javax.sql.DataSource;
+import java.sql.SQLException;
+import java.util.logging.Level;
 
 //https://www.petrikainulainen.net/programming/jooq/using-jooq-with-spring-configuration/
 //TODO - This is not recommended approach - read above link
@@ -86,17 +82,17 @@ public class PersistenceContext {
         return new JooQToSpringExceptionTransformer();
     }
 
-    // Configure jOOQ's TransactionProvider as a proxy to Spring's transaction manager
-//    @Bean
-//    public TransactionProvider jooqTransactionProvider(DataSource dataSource) throws SQLException {
-//        return new CustomTransactionProvider(transactionManager(dataSource));
-//    }
+   //  Configure jOOQ's TransactionProvider as a proxy to Spring's transaction manager
+    @Bean
+    public TransactionProvider jooqTransactionProvider(DataSource dataSource) throws SQLException {
+        return new CustomTransactionProvider(transactionManager(dataSource));
+    }
 
     @Bean
     public DefaultConfiguration configuration(DataSource dataSource) throws SQLException {
         DefaultConfiguration jooqConfig = new DefaultConfiguration();
         jooqConfig.setConnectionProvider(connectionProvider(dataSource));
-        //jooqConfig.setTransactionProvider(jooqTransactionProvider(dataSource));
+        jooqConfig.setTransactionProvider(jooqTransactionProvider(dataSource));
         jooqConfig.setSQLDialect(SQLDialect.valueOf(env.getProperty("jooq.sql.dialect", SQLDialect.ORACLE20C.getName())));
         jooqConfig.setExecuteListenerProvider(new DefaultExecuteListenerProvider(jooqToSpringExceptionTransformer()),
                 new DefaultExecuteListenerProvider(new QueryPerformanceListener()));

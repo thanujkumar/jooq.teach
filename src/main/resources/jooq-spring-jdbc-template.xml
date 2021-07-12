@@ -10,13 +10,14 @@
 
     <!-- This is needed if you want to use the @Transactional annotation -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    <ctx:annotation-config />
+    <ctx:annotation-config/>
 
     <bean id="ucpm" class="oracle.ucp.admin.UniversalConnectionPoolManagerImpl"
-          factory-method="getUniversalConnectionPoolManager" depends-on="dataSource" />
+          factory-method="getUniversalConnectionPoolManager" depends-on="dataSource"/>
 
     <bean id="dataSource"
-          class="oracle.ucp.jdbc.PoolDataSourceImpl"  lazy-init="false"> <!-- non xa oracle.ucp.jdbc.PoolDataSourceImpl xa: oracle.ucp.jdbc.PoolXADataSourceImpl-->
+          class="oracle.ucp.jdbc.PoolDataSourceImpl"
+          lazy-init="false"> <!-- non xa oracle.ucp.jdbc.PoolDataSourceImpl xa: oracle.ucp.jdbc.PoolXADataSourceImpl-->
         <property name="connectionFactoryClassName"
                   value="oracle.jdbc.pool.OracleDataSource"/> <!-- non xa oracle.jdbc.pool.OracleDataSource , xa: oracle.jdbc.xa.client.OracleXADataSource-->
         <property name="URL"
@@ -24,7 +25,7 @@
         <property name="user" value="jooqdata"/>
         <property name="password" value="jooqdata"/>
         <property name="maxPoolSize" value="5"/>
-        <property name="minPoolSize" value="5" />
+        <property name="minPoolSize" value="5"/>
         <property name="initialPoolSize" value="5"/>
         <property name="connectionPoolName" value="ORA_XA_UCP"/>
     </bean>
@@ -83,6 +84,7 @@
                 <property name="renderFormatted" value="false"/>
                 <!-- https://www.jooq.org/doc/latest/manual/sql-execution/logging/ -->
                 <property name="executeLogging" value="false"/>
+                <property name="executeWithOptimisticLocking" value="true"/>
             </bean>
         </property>
     </bean>

@@ -9,6 +9,7 @@ import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;
+import org.jooq.tools.Convert;
 
 
 public class JOOQDSL {
@@ -37,7 +38,6 @@ public class JOOQDSL {
                 .getSQL();
 
         System.out.println(sql2);
-
 
     }
 
