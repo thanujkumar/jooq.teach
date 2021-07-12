@@ -310,6 +310,7 @@
                         </database>
                         <generate>
                             <javaTimeTypes>true</javaTimeTypes>
+                            <instanceFields>true</instanceFields>
                             <comments>true</comments>
                             <jpaVersion>${jakarta-persistence-api.version}</jpaVersion>
                             <jpaAnnotations>true</jpaAnnotations>

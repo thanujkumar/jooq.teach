@@ -1,7 +1,8 @@
-package jooq.examples.springxml1;
+package jooq.examples.tools;
 
 import org.jooq.ExecuteContext;
 import org.jooq.SQLDialect;
+import org.jooq.conf.ParamType;
 import org.jooq.impl.DefaultExecuteListener;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 import org.springframework.jdbc.support.SQLExceptionTranslator;
@@ -25,7 +26,8 @@ public class ExceptionTranslator extends DefaultExecuteListener {
                     ? new SQLErrorCodeSQLExceptionTranslator(dialect.thirdParty().springDbName())
                     : new SQLStateSQLExceptionTranslator();
 
-            ctx.exception(translator.translate("jOOQ", ctx.sql(), ctx.sqlException()));
+            //ctx.exception(translator.translate("jOOQ", ctx.sql(), ctx.sqlException()));
+            ctx.exception(translator.translate("jOOQ", ctx.query().getSQL(ParamType.NAMED_OR_INLINED), ctx.sqlException()));
         }
     }
 }

@@ -21,6 +21,7 @@ public class ExecuteJOOQDSL extends  InitializeOracleSettings{
     public static void main(String[] args) throws Exception {
         Settings settings = new Settings();
         settings.setRenderSchema(false);
+        settings.setExecuteLogging(true);
 
         createPool();
 
