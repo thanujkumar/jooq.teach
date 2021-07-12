@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- https://github.com/jOOQ/jOOQ/tree/main/jOOQ-examples -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:ctx="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
@@ -8,11 +9,9 @@
         ">
 
     <!-- This is needed if you want to use the @Transactional annotation -->
-
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!-- Used for shutdown -->
-
     <bean id="ucpm" class="oracle.ucp.admin.UniversalConnectionPoolManagerImpl"
           factory-method="getUniversalConnectionPoolManager"/>
 
@@ -48,18 +47,13 @@
         <constructor-arg ref="transactionAwareDataSource"/>
     </bean>
 
-    <!-- Configure the DSL object, optionally overriding jOOQ Exceptions with Spring Exceptions -->
-    <bean id="dsl" class="org.jooq.impl.DefaultDSLContext">
-        <constructor-arg ref="config"/>
-    </bean>
-
-    <bean id="exceptionTranslator" class="jooq.examples.springxml1.ExceptionTranslator"/>
-
 
     <!-- Configure jOOQ's TransactionProvider as a proxy to Spring's transaction manager -->
     <bean id="transactionProvider" class="jooq.examples.springxml1.SpringTransactionProvider">
     </bean>
 
+
+    <bean id="exceptionTranslator" class="jooq.examples.springxml1.ExceptionTranslator"/>
 
     <bean id="queryPerf" class="jooq.examples.tools.QueryPerformanceListener"/>
 
@@ -69,7 +63,7 @@
             <value type="org.jooq.SQLDialect">ORACLE20C</value>
         </property>
         <property name="connectionProvider" ref="connectionProvider"/>
-        <!--  property name="transactionProvider" ref="transactionProvider"/ -->
+        <property name="transactionProvider" ref="transactionProvider"/>
         <property name="executeListenerProvider">
             <array>
                 <bean class="org.jooq.impl.DefaultExecuteListenerProvider">
@@ -90,6 +84,12 @@
             </bean>
         </property>
     </bean>
+
+    <!-- Configure the DSL object, optionally overriding jOOQ Exceptions with Spring Exceptions -->
+    <bean id="dsl" class="org.jooq.impl.DefaultDSLContext">
+        <constructor-arg ref="config"/>
+    </bean>
+
 
     <bean id="books" class="jooq.examples.springxml1.DefaultBookService" >
         <property name="dsl" ref="dsl" />

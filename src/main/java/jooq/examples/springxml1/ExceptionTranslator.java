@@ -7,6 +7,7 @@ import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 import org.springframework.jdbc.support.SQLExceptionTranslator;
 import org.springframework.jdbc.support.SQLStateSQLExceptionTranslator;
 
+//https://www.petrikainulainen.net/programming/jooq/using-jooq-with-spring-configuration/
 public class ExceptionTranslator extends DefaultExecuteListener {
 
     /**

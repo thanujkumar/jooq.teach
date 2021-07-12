@@ -14,29 +14,30 @@ public class SpringTransactionProvider implements TransactionProvider {
     private static final JooqLogger log = JooqLogger.getLogger(SpringTransactionProvider.class);
 
     @Autowired
-    DataSourceTransactionManager txMgr;
+    DataSourceTransactionManager transactionManager;
 
     @Override
     public void begin(TransactionContext ctx) {
         log.info("Begin transaction");
+        System.out.println("**Begin transaction**");
 
         // This TransactionProvider behaves like jOOQ's DefaultTransactionProvider,
         // which supports nested transactions using Savepoints
-        TransactionStatus tx = txMgr.getTransaction(new DefaultTransactionDefinition(TransactionDefinition.PROPAGATION_NESTED));
+        TransactionStatus tx = transactionManager.getTransaction(new DefaultTransactionDefinition(TransactionDefinition.PROPAGATION_NESTED));
         ctx.transaction(new SpringTransaction(tx));
     }
 
     @Override
     public void commit(TransactionContext ctx) {
         log.info("commit transaction");
-
-        txMgr.commit(((SpringTransaction) ctx.transaction()).tx);
+        System.out.println("**commit transaction**");
+        transactionManager.commit(((SpringTransaction) ctx.transaction()).tx);
     }
 
     @Override
     public void rollback(TransactionContext ctx) {
         log.info("rollback transaction");
-
-        txMgr.rollback(((SpringTransaction) ctx.transaction()).tx);
+        System.out.println("**rollback transaction**");
+        transactionManager.rollback(((SpringTransaction) ctx.transaction()).tx);
     }
 }

@@ -35,7 +35,7 @@ import oracle.ucp.jdbc.PoolDataSourceFactory;
 @Configuration
 @ComponentScan("jooq.examples.spring.javaconfig")
 @EnableTransactionManagement
-@PropertySource("classpath:spring-nonxa-config.properties")
+@PropertySource("classpath:jooq-spring-nonxa.properties")
 public class PersistenceContext {
 
     @Autowired

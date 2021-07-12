@@ -32,6 +32,15 @@
         <sl4j.version>1.7.25</sl4j.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <sfm.jooq.version>8.2.3</sfm.jooq.version>
+        <jakarta-persistence-api.version>2.2.3</jakarta-persistence-api.version>
+        <jakarta-annotation-api.version>1.3.5</jakarta-annotation-api.version>
+        <jakarta-validation-api.version>2.0.2</jakarta-validation-api.version>
+        <jakarta.xml.bind-api.version>2.3.3</jakarta.xml.bind-api.version>
+        <reactive-streams.version>1.0.3</reactive-streams.version>
+
+        <versions-maven-plugin.version>2.2</versions-maven-plugin.version>
+        <maven-scm-plugin.version>1.11.2</maven-scm-plugin.version>
+        <flyway-maven-plugin.version>7.11.0</flyway-maven-plugin.version>
 
         <db.url>jdbc:oracle:thin:@(DESCRIPTION=(SOURCE_ROUTE=YES)
             (ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orcl)))
@@ -53,12 +62,7 @@
             <artifactId>jooq-codegen</artifactId>
             <version>${jooq.version}</version>
         </dependency>
-        <dependency>
-            <groupId>${jooq.release}</groupId>
-            <artifactId>jooq-codegen-maven</artifactId>
-            <version>${jooq.version}</version>
-        </dependency>
-        <dependency>
+         <dependency>
             <groupId>${jooq.release}</groupId>
             <artifactId>jooq-meta</artifactId>
             <version>${jooq.version}</version>
@@ -111,19 +115,27 @@
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
-            <version>2.2.3</version>
+            <version>${jakarta-persistence-api.version}</version>
         </dependency>
-
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
-            <version>2.3.3</version>
+            <version>${jakarta.xml.bind-api.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${jakarta-validation-api.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.reactivestreams</groupId>
             <artifactId>reactive-streams</artifactId>
-            <version>1.0.3</version>
+            <version>${reactive-streams.version}</version>
         </dependency>
 
         <!-- simple flat mapper -->
@@ -208,12 +220,12 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
-                <version>2.2</version>
+                <version>${versions-maven-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-scm-plugin</artifactId>
-                <version>1.11.2</version>
+                <version>${maven-scm-plugin.version}</version>
                 <configuration>
                     <tag>${project.artifactId}-${project.version}</tag>
                 </configuration>
@@ -231,7 +243,7 @@
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
-                <version>7.11.0</version>
+                <version>${flyway-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -284,6 +296,8 @@
                         <schema>jooqdata</schema>
                     </jdbc>
                     <generator>
+                        <!-- org.jooq.codegen.KotlinGenerator, org.jooq.codegen.ScalaGenerator -->
+                        <name>org.jooq.codegen.JavaGenerator</name>
                         <database>
                             <name>org.jooq.meta.oracle.OracleDatabase</name>
                             <inputSchema>jooqdata</inputSchema>
@@ -296,18 +310,21 @@
                         </database>
                         <generate>
                             <javaTimeTypes>true</javaTimeTypes>
-                            <jpaAnnotations>true</jpaAnnotations>
                             <comments>true</comments>
-                            <jpaVersion>2.2</jpaVersion>
+                            <jpaVersion>${jakarta-persistence-api.version}</jpaVersion>
+                            <jpaAnnotations>true</jpaAnnotations>
                             <pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
                             <pojos>true</pojos>
                             <daos>true</daos>
                             <validationAnnotations>false</validationAnnotations>
                             <springAnnotations>true</springAnnotations>
+                            <fluentSetters>true</fluentSetters>
+                            <generatedSerialVersionUID>HASH</generatedSerialVersionUID>
                         </generate>
                         <target>
                             <packageName>jooq.examples.generated</packageName>
                             <directory>./generated</directory>
+                            <encoding>UTF-8</encoding>
                         </target>
                     </generator>
                 </configuration>

@@ -27,7 +27,8 @@ public class QueryPerformanceListener extends DefaultExecuteListener {
     public void executeEnd(ExecuteContext ctx) {
 
         super.executeEnd(ctx);
-        System.out.println("Performance of SQL \n"
-                + ctx.query() + "\n took " + StopWatch.format(watch.split()));
+//        System.out.println("Performance of SQL \n"
+//                + ctx.query() + "\n took " + StopWatch.format(watch.split()));
+        System.out.println("Execution time : " + StopWatch.format(watch.split()) + ". Query : " + ctx.sql());
     }
 }

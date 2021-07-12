@@ -53,7 +53,7 @@ public class SpringExampleExceptionMain {
 	private static ApplicationContext context;
 
 	public static void main(String[] args) throws Exception {
-		context = new ClassPathXmlApplicationContext("springxml-1-nonxa-config.xml");
+		context = new ClassPathXmlApplicationContext("jooq-spring-nonxa.xml");
 		for (String s : context.getBeanDefinitionNames()) {
 			System.out.println(s);
 		}
