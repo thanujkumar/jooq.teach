@@ -1,4 +1,4 @@
-package jooq.examples.spring.jdbctemplate;
+package jooq.examples.spring.xml;
 
 import jooq.examples.generated.tables.Author;
 import jooq.examples.generated.tables.Book;

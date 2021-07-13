@@ -84,9 +84,11 @@
         <property name="settings">
             <bean class="org.jooq.conf.Settings">
                 <property name="renderFormatted" value="false"/>
+                <property name="renderQuotedNames" value="#{T(org.jooq.conf.RenderQuotedNames).NEVER}"/>
                 <!-- https://www.jooq.org/doc/latest/manual/sql-execution/logging/ -->
                 <property name="executeLogging" value="false"/>
                 <property name="executeWithOptimisticLocking" value="true"/>
+                <property name="mapJPAAnnotations" value="false" />
             </bean>
         </property>
     </bean>

@@ -103,7 +103,7 @@ public class JdbcTemplateMain {
         log.info("============START=====================Using DSLContext.transaction which is wired with spring tx support  (Perf printed) =======================");
         log.info("=========START DSLContext.transaction=====================COUNT=" + dslContext.fetchCount(BOOK));
         try {
-            dslContext.transaction(tx -> {
+            dslContext.transaction(cfg -> {
                 for (int i = 0; i < 2; i++)
                     //trying to insert same data twice, so complete rollback, note try-catch is outside
                     dslContext.insertInto(BOOK)

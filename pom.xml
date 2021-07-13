@@ -21,6 +21,7 @@
         <surefire.version>2.22.0</surefire.version>
         <!-- JUnit 5 = JUnit Platform + JUnit Jupiter (for writing tests and extensions in JUnit 5) + JUnit Vintage (for running JUnit 3 and JUnit 4 based tests) -->
         <junit5.version>5.7.2</junit5.version>
+        <junit5.platform.runner.version>1.7.2</junit5.platform.runner.version>
         <jooq.version>3.14.12</jooq.version>
         <!-- This is to shift between pro and community version of jooq, by default community version is used, you could pass
         -Djooq.release=org.jooq.  -Djooq.release=org.jooq.pro  -Djooq.release=org.jooq.trial-->
@@ -188,6 +189,18 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>${junit5.platform.runner.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${springframework.version}</version>
@@ -292,7 +305,7 @@
                             <name>org.jooq.meta.oracle.OracleDatabase</name>
                             <inputSchema>jooqdata</inputSchema>
                             <recordVersionFields>VERSION</recordVersionFields>
-                            <recordTimestampFields>CREATED_TS</recordTimestampFields>
+                            <recordTimestampFields>MODIFIED_TS</recordTimestampFields>
                             <unsignedTypes>true</unsignedTypes>
                             <excludes>
                                 jooq_schema.*

@@ -30,4 +30,9 @@ public class JdbcTemplateDefaultBookService implements JdbcTemplateBookService {
     public Result<Record> get(int id) {
         return dslContext.select().from(Book.BOOK).where(Book.BOOK.ID.eq(id)).fetch();
     }
+
+    @Override
+    public DSLContext getDsl() {
+        return dslContext;
+    }
 }

@@ -1,8 +1,10 @@
-package jooq.examples.spring.jdbctemplate;
+package jooq.examples.spring.xml;
 
 import static jooq.examples.generated.tables.Book.BOOK;
 
 import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Result;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -34,6 +36,11 @@ public class DefaultBookService implements BookService {
 
     public DSLContext getDsl() {
         return dsl;
+    }
+
+    @Override
+    public Result<Record> get(int bookId) {
+        return dsl.select().from(BOOK).where(BOOK.ID.eq(bookId)).fetch();
     }
 
     public void setDsl(DSLContext dsl) {

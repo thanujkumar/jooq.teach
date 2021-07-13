@@ -78,8 +78,9 @@
         </property>
         <property name="settings">
             <bean class="org.jooq.conf.Settings">
-                <property name="renderNameStyle" value="#{T(org.jooq.conf.RenderNameStyle).AS_IS}"/>
+                <property name="renderQuotedNames" value="#{T(org.jooq.conf.RenderQuotedNames).NEVER}"/>
                 <property name="renderFormatted" value="true"/>
+                <property name="mapJPAAnnotations" value="false" />
                 <property name="executeLogging"
                           value="false"/> <!-- https://www.jooq.org/doc/latest/manual/sql-execution/logging/ -->
             </bean>
@@ -92,7 +93,7 @@
     </bean>
 
 
-    <bean id="books" class="jooq.examples.spring.jdbctemplate.DefaultBookService" >
+    <bean id="books" class="jooq.examples.spring.xml.DefaultBookService" >
         <property name="dsl" ref="dsl" />
     </bean>
 

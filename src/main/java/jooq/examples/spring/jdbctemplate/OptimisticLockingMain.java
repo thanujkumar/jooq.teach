@@ -11,7 +11,7 @@ public class OptimisticLockingMain {
     //new Settings().withExecuteWithOptimisticLocking(true) set in spring xml
     // and pom.xml has info about version column and timestamp column for code generation
     // <recordVersionFields>VERSION</recordVersionFields>
-    //<recordTimestampFields>CREATED_TS</recordTimestampFields>
+    //<recordTimestampFields>MODIFIED_TS</recordTimestampFields>
     private static ApplicationContext context = null;
 
     public static void main(String[] args) {
