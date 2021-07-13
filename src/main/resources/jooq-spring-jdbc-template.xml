@@ -12,8 +12,10 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <ctx:annotation-config/>
 
+    <bean id="lifecycle" class="jooq.examples.spring.jdbctemplate.ContextInitializeAndShutdownListener" />
+
     <bean id="ucpm" class="oracle.ucp.admin.UniversalConnectionPoolManagerImpl"
-          factory-method="getUniversalConnectionPoolManager" depends-on="dataSource"/>
+          factory-method="getUniversalConnectionPoolManager" depends-on="dataSource" />
 
     <bean id="dataSource"
           class="oracle.ucp.jdbc.PoolDataSourceImpl"

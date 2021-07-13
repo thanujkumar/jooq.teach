@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xsi:schemaLocation="http://www.jooq.org/xsd/jooq-runtime-3.14.9.xsd jooq-runtime-3.14.9.xsd"
+          xmlns="http://www.jooq.org/xsd/jooq-runtime-3.14.9.xsd"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <forceIntegerTypesOnZeroScaleDecimals>true</forceIntegerTypesOnZeroScaleDecimals>
+    <renderCatalog>true</renderCatalog>
+    <renderSchema>false</renderSchema>
+    <!-- ALWAYS, EXPLICIT_DEFAULT_QUOTED, EXPLICIT_DEFAULT_UNQUOTED, NEVER -->
+    <renderQuotedNames>NEVER</renderQuotedNames>
+    <!-- AS_IS, LOWER, LOWER_IF_UNQUOTED, UPPER, UPPER_IF_UNQUOTED -->
+    <renderNameCase>AS_IS</renderNameCase>
+    <!-- AS_IS, QUOTED, LOWER, UPPER -->
+    <renderNameStyle>QUOTED</renderNameStyle>
+    <renderNamedParamPrefix>:</renderNamedParamPrefix>
+    <!-- AS_IS, PASCAL, UPPER, LOWER -->
+    <renderKeywordCase>AS_IS</renderKeywordCase>
+    <!-- AS_IS, PASCAL, UPPER, LOWER -->
+    <renderKeywordStyle>AS_IS</renderKeywordStyle>
+    <renderFormatted>false</renderFormatted>
+    <!-- DEFAULT, ON, OFF -->
+    <renderOptionalAsKeywordForTableAliases>DEFAULT</renderOptionalAsKeywordForTableAliases>
+    <renderOptionalAsKeywordForFieldAliases>DEFAULT</renderOptionalAsKeywordForFieldAliases>
+    <renderOptionalInnerKeyword>DEFAULT</renderOptionalInnerKeyword>
+    <renderOptionalOuterKeyword>DEFAULT</renderOptionalOuterKeyword>
+    <renderScalarSubqueriesForStoredFunctions>false</renderScalarSubqueriesForStoredFunctions>
+    <renderImplicitJoinType>DEFAULT</renderImplicitJoinType>
+    <renderOrderByRownumberForEmulatedPagination>true</renderOrderByRownumberForEmulatedPagination>
+    <renderOutputForSQLServerReturningClause>true</renderOutputForSQLServerReturningClause>
+    <renderParenthesisAroundSetOperationQueries>false</renderParenthesisAroundSetOperationQueries>
+    <bindOffsetDateTimeType>false</bindOffsetDateTimeType>
+    <bindOffsetTimeType>false</bindOffsetTimeType>
+    <fetchTriggerValuesAfterSQLServerOutput>true</fetchTriggerValuesAfterSQLServerOutput>
+    <transformAnsiJoinToTableLists>false</transformAnsiJoinToTableLists>
+    <transformTableListsToAnsiJoin>false</transformTableListsToAnsiJoin>
+    <transformRownum>false</transformRownum>
+    <transformUnneededArithmeticExpressions>NEVER</transformUnneededArithmeticExpressions>
+    <backslashEscaping>DEFAULT</backslashEscaping>
+    <paramType>INDEXED</paramType>
+    <paramCastMode>DEFAULT</paramCastMode>
+    <statementType>PREPARED_STATEMENT</statementType>
+    <inlineThreshold>0</inlineThreshold>
+    <transactionListenerStartInvocationOrder>DEFAULT</transactionListenerStartInvocationOrder>
+    <transactionListenerEndInvocationOrder>DEFAULT</transactionListenerEndInvocationOrder>
+    <migrationListenerStartInvocationOrder>DEFAULT</migrationListenerStartInvocationOrder>
+    <migrationListenerEndInvocationOrder>DEFAULT</migrationListenerEndInvocationOrder>
+    <visitListenerStartInvocationOrder>DEFAULT</visitListenerStartInvocationOrder>
+    <visitListenerEndInvocationOrder>DEFAULT</visitListenerEndInvocationOrder>
+    <recordListenerStartInvocationOrder>DEFAULT</recordListenerStartInvocationOrder>
+    <recordListenerEndInvocationOrder>DEFAULT</recordListenerEndInvocationOrder>
+    <executeListenerStartInvocationOrder>DEFAULT</executeListenerStartInvocationOrder>
+    <executeListenerEndInvocationOrder>DEFAULT</executeListenerEndInvocationOrder>
+    <executeLogging>true</executeLogging>
+    <updateRecordVersion>true</updateRecordVersion>
+    <updateRecordTimestamp>true</updateRecordTimestamp>
+    <executeWithOptimisticLocking>false</executeWithOptimisticLocking>
+    <executeWithOptimisticLockingExcludeUnversioned>false</executeWithOptimisticLockingExcludeUnversioned>
+    <attachRecords>true</attachRecords>
+    <insertUnchangedRecords>true</insertUnchangedRecords>
+    <updateUnchangedRecords>NEVER</updateUnchangedRecords>
+    <updatablePrimaryKeys>false</updatablePrimaryKeys>
+    <reflectionCaching>true</reflectionCaching>
+    <cacheRecordMappers>true</cacheRecordMappers>
+    <cachePreparedStatementInLoader>true</cachePreparedStatementInLoader>
+    <throwExceptions>THROW_ALL</throwExceptions>
+    <fetchWarnings>true</fetchWarnings>
+    <fetchServerOutputSize>0</fetchServerOutputSize>
+    <returnIdentityOnUpdatableRecord>true</returnIdentityOnUpdatableRecord>
+    <returnAllOnUpdatableRecord>false</returnAllOnUpdatableRecord>
+    <returnRecordToPojo>true</returnRecordToPojo>
+    <mapJPAAnnotations>true</mapJPAAnnotations>
+    <mapConstructorParameterNames>false</mapConstructorParameterNames>
+    <mapConstructorParameterNamesInKotlin>true</mapConstructorParameterNamesInKotlin>
+    <queryPoolable>DEFAULT</queryPoolable>
+    <queryTimeout>0</queryTimeout>
+    <maxRows>0</maxRows>
+    <fetchSize>0</fetchSize>
+    <batchSize>2147483647</batchSize>
+    <debugInfoOnStackTrace>true</debugInfoOnStackTrace>
+    <inListPadding>false</inListPadding>
+    <inListPadBase>2</inListPadBase>
+    <delimiter>;</delimiter>
+    <emulateOnDuplicateKeyUpdateOnPrimaryKeyOnly>false</emulateOnDuplicateKeyUpdateOnPrimaryKeyOnly>
+    <executeUpdateWithoutWhere>LOG_DEBUG</executeUpdateWithoutWhere>
+    <executeDeleteWithoutWhere>LOG_DEBUG</executeDeleteWithoutWhere>
+    <interpreterNameLookupCaseSensitivity>DEFAULT</interpreterNameLookupCaseSensitivity>
+    <interpreterDelayForeignKeyDeclarations>false</interpreterDelayForeignKeyDeclarations>
+    <migrationAllowsUndo>false</migrationAllowsUndo>
+    <migrationRevertUntracked>false</migrationRevertUntracked>
+    <migrationAutoValidation>true</migrationAutoValidation>
+    <parseNameCase>DEFAULT</parseNameCase>
+    <parseWithMetaLookups>OFF</parseWithMetaLookups>
+    <parseSetCommands>false</parseSetCommands>
+    <parseUnsupportedSyntax>IGNORE</parseUnsupportedSyntax>
+    <parseUnknownFunctions>FAIL</parseUnknownFunctions>
+    <parseIgnoreComments>false</parseIgnoreComments>
+    <parseIgnoreCommentStart>[jooq ignore start]</parseIgnoreCommentStart>
+    <parseIgnoreCommentStop>[jooq ignore stop]</parseIgnoreCommentStop>
+    <applyWorkaroundFor7962>true</applyWorkaroundFor7962>
+</settings>

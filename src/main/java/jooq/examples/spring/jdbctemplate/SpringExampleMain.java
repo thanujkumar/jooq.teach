@@ -1,22 +1,4 @@
-package jooq.examples.springxml1;
-
-import jooq.examples.generated.tables.Author;
-import jooq.examples.generated.tables.Book;
-import jooq.examples.generated.tables.BookStore;
-import jooq.examples.generated.tables.BookToBookStore;
-import jooq.examples.generated.tables.records.AuthorRecord;
-import org.jooq.DSLContext;
-import org.jooq.Record3;
-import org.jooq.Result;
-import org.jooq.tools.JooqLogger;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.math.BigInteger;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
+package jooq.examples.spring.jdbctemplate;
 
 import static jooq.examples.generated.tables.Author.AUTHOR;
 import static jooq.examples.generated.tables.Book.BOOK;
@@ -24,11 +6,29 @@ import static jooq.examples.generated.tables.BookStore.BOOK_STORE;
 import static jooq.examples.generated.tables.BookToBookStore.BOOK_TO_BOOK_STORE;
 import static org.jooq.impl.DSL.countDistinct;
 
-//Check how ExceptionTranslator works
-public class SpringExampleExceptionMain {
+import java.math.BigInteger;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
+import org.jooq.DSLContext;
+import org.jooq.Record3;
+import org.jooq.Result;
+import org.jooq.tools.JooqLogger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import jooq.examples.generated.tables.Author;
+import jooq.examples.generated.tables.Book;
+import jooq.examples.generated.tables.BookStore;
+import jooq.examples.generated.tables.BookToBookStore;
+import jooq.examples.generated.tables.records.AuthorRecord;
+
+public class SpringExampleMain {
 	static {
 		//LoggerListener
-		JooqLogger log = JooqLogger.getLogger(SpringExampleExceptionMain.class);
+		JooqLogger log = JooqLogger.getLogger(SpringExampleMain.class);
 		log.globalThreshold(org.jooq.Log.Level.DEBUG);
 		
 		System.out.println(Logger.getLogger("test").isLoggable(Level.INFO));
@@ -55,7 +55,7 @@ public class SpringExampleExceptionMain {
 	public static void main(String[] args) throws Exception {
 		context = new ClassPathXmlApplicationContext("jooq-spring-nonxa.xml");
 		for (String s : context.getBeanDefinitionNames()) {
-			System.out.println(s);
+			System.out.println("FullDef=========="+s);
 		}
 
 		DSLContext create = context.getBean("dsl", org.jooq.impl.DefaultDSLContext.class);
@@ -77,9 +77,10 @@ public class SpringExampleExceptionMain {
 
 		System.out.println(author);
 
-		BookService bookService = context.getBean("books", BookService.class);
-		bookService.getDsl();
-		bookService.create(8, 1, "My Title", "thanuj");
+		//Beans
+		for (String name : context.getBeanDefinitionNames()) {
+			System.out.println("BeanName+++++++++++ " + name);
+		}
 
 		oracle.ucp.admin.UniversalConnectionPoolManager ucpm = context.getBean("ucpm",
 				oracle.ucp.admin.UniversalConnectionPoolManager.class);

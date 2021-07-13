@@ -1,10 +1,8 @@
-package jooq.examples.springxml1;
+package jooq.examples.spring.jdbctemplate;
 
 import static jooq.examples.generated.tables.Book.BOOK;
 
 import org.jooq.DSLContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;

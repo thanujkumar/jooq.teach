@@ -39,6 +39,7 @@ public class JdbcTemplateMain {
 
     public static void main(String[] args) throws Exception {
         context = new ClassPathXmlApplicationContext("jooq-spring-jdbc-template.xml");
+        ((ClassPathXmlApplicationContext)context).registerShutdownHook();
         UniversalConnectionPoolManager poolManager = context.getBean("ucpm", UniversalConnectionPoolManager.class);
         DSLContext dslContext = context.getBean("dslContext", DSLContext.class);
         JdbcTemplate jdbcTemplate = context.getBean("jdbcTemplate", JdbcTemplate.class);
@@ -147,11 +148,12 @@ public class JdbcTemplateMain {
         log.info("=============END Explicit Tx=================COUNT=" + dslContext.fetchCount(BOOK));
         log.info("============END=====================Using DSLContext with explicit transaction control from spring tx support  (Perf printed) =======================");
 
-        for (String poolName : poolManager.getConnectionPoolNames()) {
-            System.out.println(poolManager.getConnectionPool(poolName).getStatistics().toString());
-            poolManager.destroyConnectionPool(poolName);
-        }
+//        for (String poolName : poolManager.getConnectionPoolNames()) {
+//            System.out.println(poolManager.getConnectionPool(poolName).getStatistics().toString());
+//            poolManager.destroyConnectionPool(poolName);
+//        }
 
+        ((ClassPathXmlApplicationContext)context).close();
     }
 
     static class Pojo {

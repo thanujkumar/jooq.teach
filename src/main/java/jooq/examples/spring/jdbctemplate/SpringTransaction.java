@@ -1,4 +1,4 @@
-package jooq.examples.springxml1;
+package jooq.examples.spring.jdbctemplate;
 
 import org.jooq.Transaction;
 import org.springframework.transaction.TransactionStatus;

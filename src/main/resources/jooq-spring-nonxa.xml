@@ -50,7 +50,7 @@
 
 
     <!-- Configure jOOQ's TransactionProvider as a proxy to Spring's transaction manager -->
-    <bean id="transactionProvider" class="jooq.examples.springxml1.SpringTransactionProvider">
+    <bean id="transactionProvider" class="jooq.examples.spring.jdbctemplate.SpringTransactionProvider">
     </bean>
 
 
@@ -92,7 +92,7 @@
     </bean>
 
 
-    <bean id="books" class="jooq.examples.springxml1.DefaultBookService" >
+    <bean id="books" class="jooq.examples.spring.jdbctemplate.DefaultBookService" >
         <property name="dsl" ref="dsl" />
     </bean>
 

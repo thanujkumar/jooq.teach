@@ -19,9 +19,8 @@
         <project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
 
         <surefire.version>2.22.0</surefire.version>
-        <junit.version>5.7.2</junit.version>
-        <junit.vintage.version>5.7.2</junit.vintage.version>
-        <junit5.platform>1.7.2</junit5.platform>
+        <!-- JUnit 5 = JUnit Platform + JUnit Jupiter (for writing tests and extensions in JUnit 5) + JUnit Vintage (for running JUnit 3 and JUnit 4 based tests) -->
+        <junit5.version>5.7.2</junit5.version>
         <jooq.version>3.14.12</jooq.version>
         <!-- This is to shift between pro and community version of jooq, by default community version is used, you could pass
         -Djooq.release=org.jooq.  -Djooq.release=org.jooq.pro  -Djooq.release=org.jooq.trial-->
@@ -182,36 +181,10 @@
         </dependency>
 
         <!-- Testing -->
-        <!-- https://www.petrikainulainen.net/programming/testing/junit-5-tutorial-running-unit-tests-with-maven/ -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>${junit.vintage.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <version>${junit5.platform}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-runner</artifactId>
-            <version>${junit5.platform}</version>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit5.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
