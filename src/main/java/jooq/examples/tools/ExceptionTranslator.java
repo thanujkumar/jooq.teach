@@ -27,7 +27,12 @@ public class ExceptionTranslator extends DefaultExecuteListener {
                     : new SQLStateSQLExceptionTranslator();
 
             //ctx.exception(translator.translate("jOOQ", ctx.sql(), ctx.sqlException()));
-            ctx.exception(translator.translate("jOOQ", ctx.query().getSQL(ParamType.NAMED_OR_INLINED), ctx.sqlException()));
+            //sql may be null
+            if (ctx.query() != null) {
+                ctx.exception(translator.translate("jOOQ", ctx.query().getSQL(), ctx.sqlException()));
+            } else {
+                ctx.exception(translator.translate("jOOQ", "SQL not found", ctx.sqlException()));
+            }
         }
     }
 }

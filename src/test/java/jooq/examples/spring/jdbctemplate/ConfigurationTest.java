@@ -3,11 +3,10 @@ package jooq.examples.spring.jdbctemplate;
 import jooq.examples.generated.tables.BatchTest;
 import jooq.examples.generated.tables.Book;
 import jooq.examples.generated.tables.records.BookRecord;
-import org.jooq.BatchBindStep;
-import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.jooq.Result;
+import org.jooq.*;
 import org.jooq.conf.*;
+import org.jooq.impl.DSL;
 import org.jooq.tools.StopWatch;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +27,7 @@ import java.util.stream.IntStream;
 
 import static jooq.examples.generated.Tables.BATCH_TEST;
 import static jooq.examples.generated.Tables.BOOK;
+import static org.jooq.impl.DSL.any;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:jooq-spring-jdbc-template.xml")
@@ -302,7 +302,7 @@ public class ConfigurationTest {
 
     //https://www.jooq.org/doc/latest/manual/sql-building/dsl-context/custom-settings/settings-batch-size/
     @Test
-    @DisplayName("Batch size - several queries")
+    @DisplayName("Batch size - several queries insert")
     @Tag("performance")
     public void batchSizeServeralQueriesTest() {
         dsl.configuration().settings().withBatchSize(20);
@@ -321,7 +321,7 @@ public class ConfigurationTest {
 
     //https://www.jooq.org/doc/latest/manual/sql-execution/batch-execution/
     @Test
-    @DisplayName("Batch size - single query")
+    @DisplayName("Batch size - single query insert")
     @Tag("performance")
     @Order(1)
     public void batchSizeSingleQueryTest() {
@@ -370,13 +370,16 @@ public class ConfigurationTest {
 
 
     //https://www.jooq.org/doc/latest/manual/sql-building/dsl-context/custom-settings/settings-in-list-padding/
+    //https://blog.jooq.org/2017/05/30/when-to-use-bind-values-and-when-to-use-inline-values-in-sql/
     @Test
-    @DisplayName("IN-list Padding")
+    @DisplayName("IN-list Padding Reading Data")
     @Tag("performance")
     @Order(2)
     public void inListPaddingTest() {
 
-        Settings settings = dsl.configuration().settings().withInListPadding(false) //default to false
+        //With derive make a copy of configuration and settings
+        Configuration config = dsl.configuration().derive();
+        Settings settings = config.settings().withInListPadding(false) //default to false
                 .withInListPadBase(4) //default is 2
                 .withFetchSize(500)
                 .withExecuteLogging(false);
@@ -385,7 +388,7 @@ public class ConfigurationTest {
 //                .where(BATCH_TEST.ID.in(IntStream.range(1, 20001).boxed().toArray(Integer[]::new)))
 //                .fetch();
 
-        Result<Record> result = dsl.select().from(BATCH_TEST)
+        Result<Record> result = DSL.using(config).select().from(BATCH_TEST)
                 .where(BATCH_TEST.ID.in(IntStream.range(1, 20001).boxed().toArray(Integer[]::new)))
                 .fetch();
         //Time to read complete data
@@ -395,5 +398,47 @@ public class ConfigurationTest {
         }
         log.info("Total time to read {}", StopWatch.format(watch.split()));
 
+    }
+
+    @Test
+    @DisplayName("IN-list With Array Reading Data")
+    @Tag("performance")
+    @Order(3)
+    public void inListArrayTest() {
+
+        //With derive make a copy of configuration and settings
+        Configuration config = dsl.configuration().derive();
+        Settings settings = config.settings().withInListPadding(false) //default to false
+                .withInListPadBase(4) //default is 2
+                .withFetchSize(500)
+                .withExecuteLogging(false);
+
+        Result<Record> result = DSL.using(config).select().from(BATCH_TEST)
+                .where(BATCH_TEST.ID.eq(any(IntStream.range(1, 20001).boxed().toArray(Integer[]::new))))
+                .fetch();
+        //Time to read complete data
+        StopWatch watch = watch = new StopWatch();
+        for (Record rec : result) {
+            rec.toString();
+        }
+        log.info("Total time to read {}", StopWatch.format(watch.split()));
+
+    }
+
+    //https://www.jooq.org/doc/latest/manual/sql-building/dsl-context/custom-settings/settings-scalar-subqueries/
+
+    //https://www.jooq.org/doc/latest/manual/sql-building/dsl-context/custom-settings/settings-implicit-join-type/
+    @Test
+    @DisplayName("Implicit join type")
+    public void implicitJoinTest() {
+        Settings settings = dsl.configuration().settings()
+                .withExecuteLogging(false).withRenderImplicitJoinType(RenderImplicitJoinType.INNER_JOIN);
+
+        dsl.select(BOOK.author().FIRST_NAME,
+                BOOK.author().LAST_NAME,
+                BOOK.TITLE,
+                BOOK.language().CD.as("language"))
+                .from(BOOK)
+                .fetch();
     }
 }

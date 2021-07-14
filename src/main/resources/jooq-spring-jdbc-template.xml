@@ -30,6 +30,13 @@
         <property name="minPoolSize" value="5"/>
         <property name="initialPoolSize" value="5"/>
         <property name="connectionPoolName" value="ORA_XA_UCP"/>
+        <property name="connectionProperties">
+            <props>
+                <prop key="#{T(oracle.jdbc.OracleConnection).CONNECTION_PROPERTY_THIN_READ_TIMEOUT}">90000</prop>
+                <prop key="#{T(oracle.jdbc.OracleConnection).CONNECTION_PROPERTY_THIN_VSESSION_PROGRAM}">JOOQDATA</prop>
+                <prop key="#{T(oracle.jdbc.OracleConnection).CONNECTION_PROPERTY_DEFAULT_ROW_PREFETCH}">500</prop>
+            </props>
+        </property>
     </bean>
 
     <!-- Configure Spring's transaction manager to use a DataSource -->
