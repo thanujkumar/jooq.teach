@@ -23,6 +23,8 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
 import static jooq.examples.generated.Tables.BATCH_TEST;
@@ -308,7 +310,7 @@ public class ConfigurationTest {
     public void batchSizeServeralQueriesTestMe() {
         dsl.configuration().settings().withBatchSize(20);
         SelectJoinStep<Record1<Integer>> result = dsl.select(max(BATCH_TEST.ID)).from(BATCH_TEST);
-        Integer currentMaxId = result.fetch().get(0).value1();
+        Integer currentMaxId =  Optional.ofNullable(result.fetch().get(0).value1()).orElse(0);
 
         dsl.transaction(cfg -> {
             dsl.batched(b -> {
@@ -332,7 +334,8 @@ public class ConfigurationTest {
 
         dsl.configuration().settings().withBatchSize(5000).withExecuteLogging(true);
         SelectJoinStep<Record1<Integer>> result = dsl.select(max(BATCH_TEST.ID)).from(BATCH_TEST);
-        Integer currentMaxId = result.fetch().get(0).value1();
+        Integer currentMaxId =  Optional.ofNullable(result.fetch().get(0).value1()).orElse(0);
+
 
         dsl.transaction(cfg -> {
 

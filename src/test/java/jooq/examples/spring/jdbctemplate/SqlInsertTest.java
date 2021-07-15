@@ -15,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static jooq.examples.generated.Tables.*;
@@ -42,7 +43,7 @@ public class SqlInsertTest {
     public void simpleInsertTestMe() {
 
         SelectJoinStep<Record1<Integer>> result = dsl.select(max(INSERT_TEST.ID)).from(INSERT_TEST);
-        Integer currentMaxId = result.fetch().get(0).value1();
+        Integer currentMaxId = Optional.ofNullable(result.fetch().get(0).value1()).orElse(0);
 
 
         dsl.transaction(cfx -> {
@@ -79,7 +80,7 @@ public class SqlInsertTest {
         dsl.configuration().settings().withBatchSize(500); //for insert
 
         SelectJoinStep<Record1<Integer>> result = dsl.select(max(INSERT_TEST.ID)).from(INSERT_TEST);
-        Integer currentMaxId = result.fetch().get(0).value1();
+        Integer currentMaxId = Optional.ofNullable(result.fetch().get(0).value1()).orElse(0);
 
 
         InsertValuesStep6 insertValuesStep = dsl.insertInto(InsertTest.INSERT_TEST, INSERT_TEST.ID, INSERT_TEST.NAME,
@@ -101,7 +102,7 @@ public class SqlInsertTest {
 
         dsl.configuration().settings().withBatchSize(500); //for insert
         SelectJoinStep<Record1<Integer>> result = dsl.select(max(INSERT_TEST.ID)).from(INSERT_TEST);
-        Integer currentMaxId = result.fetch().get(0).value1();
+        Integer currentMaxId = Optional.ofNullable(result.fetch().get(0).value1()).orElse(0);
 
         dsl.transaction(cfg -> {
             BatchBindStep bindStep = dsl.batch(dsl.insertInto(InsertTest.INSERT_TEST, INSERT_TEST.ID, INSERT_TEST.NAME,
@@ -124,7 +125,7 @@ public class SqlInsertTest {
 
         dsl.configuration().settings().withBatchSize(500); //for insert
         SelectJoinStep<Record1<Integer>> resultMax = dsl.select(max(INSERT_TEST.ID)).from(INSERT_TEST);
-        Integer currentMaxId = resultMax.fetch().get(0).value1();
+        Integer currentMaxId = Optional.ofNullable(resultMax.fetch().get(0).value1()).orElse(0);
 
         InsertValuesStep6 step6 = dsl.insertInto(InsertTest.INSERT_TEST, INSERT_TEST.ID, INSERT_TEST.NAME,
                 INSERT_TEST.AGE, INSERT_TEST.TITLE, INSERT_TEST.CREATED_TS, INSERT_TEST.VERSION);
