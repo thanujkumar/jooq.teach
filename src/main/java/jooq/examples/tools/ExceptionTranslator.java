@@ -29,10 +29,20 @@ public class ExceptionTranslator extends DefaultExecuteListener {
             //ctx.exception(translator.translate("jOOQ", ctx.sql(), ctx.sqlException()));
             //sql may be null
             if (ctx.query() != null) {
-                ctx.exception(translator.translate("jOOQ", ctx.query().getSQL(), ctx.sqlException()));
+                ctx.exception(translator.translate("jOOQ", left(ctx.query().getSQL(), 2000), ctx.sqlException()));
             } else {
                 ctx.exception(translator.translate("jOOQ", "SQL not found", ctx.sqlException()));
             }
+        }
+    }
+
+    public static String left(String str, int len) {
+        if (str == null) {
+            return null;
+        } else if (len < 0) {
+            return "";
+        } else {
+            return str.length() <= len ? str : str.substring(0, len);
         }
     }
 }

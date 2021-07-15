@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import static jooq.examples.generated.Tables.*;
 import static org.jooq.impl.DSL.*;
 
+////Note TestMe convention is used to capture test name by Oracle end to end metrics
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:jooq-spring-jdbc-template.xml")
 public class SqlStatementDMLTest {
@@ -36,7 +37,7 @@ public class SqlStatementDMLTest {
 
     @Test
     @DisplayName("Basic SELECT")
-    public void basicSelectTest() {
+    public void basicSelectTestMe() {
 
         Author a = AUTHOR.as("a");
         Book b = BOOK.as("b");
@@ -55,7 +56,7 @@ public class SqlStatementDMLTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/sql-statements/dsl-and-non-dsl/
     @Test
     @DisplayName("Model API instead of DSL")
-    public void usingModelAPITest() {
+    public void usingModelAPITestMe() {
 
         SelectQuery<Record> query = dsl.selectQuery();
         query.addFrom(AUTHOR);
@@ -67,7 +68,7 @@ public class SqlStatementDMLTest {
 
     @Test
     @DisplayName("Explicit Common Table Expression")
-    public void explicitCommonTableExpressionTest() {
+    public void explicitCommonTableExpressionTestMe() {
         /*
         WITH a AS (
             SELECT * FROM  book
@@ -89,7 +90,7 @@ public class SqlStatementDMLTest {
 
     @Test
     @DisplayName("Inline Common Table Expression")
-    public void inlineCommonTableExpressionTest() {
+    public void inlineCommonTableExpressionTestMe() {
         /*
         WITH a AS (
             SELECT * FROM  book
@@ -109,7 +110,7 @@ public class SqlStatementDMLTest {
 
     @Test
     @DisplayName("With Recursive Common Table Expression")
-    public void withRecursiveCommonTableExpressionTest() {
+    public void withRecursiveCommonTableExpressionTestMe() {
         /*
         WITH a (id, name) as (
             SELECT id, title FROM  book
@@ -124,7 +125,7 @@ public class SqlStatementDMLTest {
 
     @Test
     @DisplayName("Projections With Select Statment")
-    public void selectProjectionTest() {
+    public void selectProjectionTestMe() {
         Result result = dsl.select(AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME, count())
                 .from(AUTHOR)
                 .join(BOOK).on(BOOK.AUTHOR_ID.eq(AUTHOR.ID))
@@ -144,7 +145,7 @@ public class SqlStatementDMLTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/sql-statements/select-statement/select-clause/
     @Test
     @DisplayName("SELECT clause Examples")
-    public void selectClauseExampleTest() {
+    public void selectClauseExampleTestMe() {
         Result result = dsl.select(BOOK.ID, BOOK.TITLE).from(BOOK).fetch();
         log.info(result.toString());
 
@@ -165,7 +166,7 @@ public class SqlStatementDMLTest {
 
     @Test
     @DisplayName("Advanced Table Expressions")
-    public void advancedTableExpressionTest() {
+    public void advancedTableExpressionTestMe() {
         Result result = dsl.select().from(
                 table("book")
         ).fetch();
@@ -180,7 +181,7 @@ public class SqlStatementDMLTest {
 
     @Test
     @DisplayName("Order By")
-    public void orderByTest() {
+    public void orderByTestMe() {
         Result result = dsl.select(BOOK.AUTHOR_ID, BOOK.TITLE)
                 .from(BOOK)
                 .orderBy(one().asc(), inline(2).desc())
@@ -200,7 +201,7 @@ public class SqlStatementDMLTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/sql-statements/select-statement/order-by-clause/
     @Test
     @DisplayName("Using CASE Expression")
-    public void caseExpressionTest() {
+    public void caseExpressionTestMe() {
         Result result = dsl.select()
                 .from(BOOK)
                 .orderBy(case_(BOOK.TITLE)
@@ -222,7 +223,7 @@ public class SqlStatementDMLTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/sql-statements/select-statement/with-ties-clause/
     @Test
     @DisplayName("With TIES Clause")
-    public void withTieClauseTest() {
+    public void withTieClauseTestMe() {
         Result result = dsl.selectFrom(BOOK)
                 .orderBy(BOOK.AUTHOR_ID)
                 .limit(1).withTies()
@@ -234,7 +235,7 @@ public class SqlStatementDMLTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/sql-statements/select-statement/seek-clause/
     @Test
     @DisplayName("using SEEK Clause")
-    public void seekClauseTest() {
+    public void seekClauseTestMe() {
         Result result = dsl.select(BATCH_TEST.ID, BATCH_TEST.AGE)
                 .from(BATCH_TEST)
                 .orderBy(BATCH_TEST.ID, BATCH_TEST.AGE)
@@ -248,7 +249,7 @@ public class SqlStatementDMLTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/sql-statements/select-statement/for-clause/
     @Test
     @DisplayName("using FOR Clause to convert to XML or JSON")
-    public void forClauseTest() {
+    public void forClauseTestMe() {
         Result result = dsl.select(BOOK.ID, BOOK.TITLE)
                 .from(BOOK)
                 .orderBy(BOOK.ID)
@@ -270,7 +271,7 @@ public class SqlStatementDMLTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/sql-statements/select-statement/for-update-clause/
     @Test
     @DisplayName("for UPDATE clause")
-    public void forUpdateTest() {
+    public void forUpdateTestMe() {
         //should be in transaction
         dsl.transaction(cf -> {
             dsl.configuration().settings().withQueryTimeout(1000);//millis

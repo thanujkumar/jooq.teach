@@ -36,6 +36,16 @@ public class QueryPerformanceListener extends DefaultExecuteListener {
 
         //       System.out.println("Execution time : " + StopWatch.format(watch.split()) + ". Query : " + ctx.sql());
         // log.info("Execution time : " + StopWatch.format(watch.split()) + ". Query : " + ctx.query().getSQL(ParamType.INLINED));
-        log.info("Execution time : " + StopWatch.format(watch.split()) + ". Query : " + ctx.sql());
+        log.info("Execution time : " + StopWatch.format(watch.split()) + ". Query : " + left(ctx.sql(), 1000));
+    }
+
+    public static String left(String str, int len) {
+        if (str == null) {
+            return null;
+        } else if (len < 0) {
+            return "";
+        } else {
+            return str.length() <= len ? str : str.substring(0, len);
+        }
     }
 }

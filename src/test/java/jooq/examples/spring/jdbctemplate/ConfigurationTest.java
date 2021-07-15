@@ -27,8 +27,9 @@ import java.util.stream.IntStream;
 
 import static jooq.examples.generated.Tables.BATCH_TEST;
 import static jooq.examples.generated.Tables.BOOK;
-import static org.jooq.impl.DSL.any;
+import static org.jooq.impl.DSL.*;
 
+//Note TestMe convention is used to capture test name by Oracle end to end metrics
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:jooq-spring-jdbc-template.xml")
 @IncludeTags("performance")
@@ -45,7 +46,7 @@ public class ConfigurationTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/dsl-context/custom-settings/settings-parameter-type/
     @Test
     @DisplayName("Indexed For Bind Variables")
-    public void bindTest() {
+    public void bindTestMe() {
         dsl.configuration().settings().withParamType(ParamType.INDEXED);
         Result<Record> result = dsl.select().from(Book.BOOK)
                 .where(Book.BOOK.ID.in(IntStream.range(1, 50).boxed().toArray(Integer[]::new)))
@@ -56,7 +57,7 @@ public class ConfigurationTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/dsl-context/custom-settings/settings-statement-type/
     @Test
     @DisplayName("Statement Type - bind values? - inlined as Statement is used")
-    public void statementTypeInlineTest() {
+    public void statementTypeInlineTestMe() {
         dsl.configuration().settings().withParamType(ParamType.INDEXED).withStatementType(StatementType.STATIC_STATEMENT);
         Result<Record> result = dsl.select().from(Book.BOOK)
                 .where(Book.BOOK.ID.in(IntStream.range(1, 50).boxed().toArray(Integer[]::new)))
@@ -67,7 +68,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("Statement Type - bind values? - indexed as PreparedStatement is used")
-    public void statementTypeIndexedTest() {
+    public void statementTypeIndexedTestMe() {
         dsl.configuration().settings().withParamType(ParamType.INDEXED).withStatementType(StatementType.PREPARED_STATEMENT);
         Result<Record> result = dsl.select().from(Book.BOOK)
                 .where(Book.BOOK.ID.in(IntStream.range(1, 50).boxed().toArray(Integer[]::new)))
@@ -78,7 +79,7 @@ public class ConfigurationTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/dsl-context/custom-settings/settings-inline-threshold/
     @Test
     @DisplayName("Inline Threshold After Which Bind Values Are Used")
-    public void inlineTest() {
+    public void inlineTestMe() {
         dsl.configuration().settings().withInlineThreshold(50);
         //Uses ? as it is withing inline threshold
         Result<Record> result = dsl.select().from(Book.BOOK)
@@ -95,7 +96,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("Disable Jooq Logging (LoggingListener)")
-    public void jooqLoggingDisabledTest() {
+    public void jooqLoggingDisabledTestMe() {
         dsl.configuration().settings().withExecuteLogging(false);
         Result<Record> result = dsl.select().from(Book.BOOK)
                 .where(Book.BOOK.ID.in(IntStream.range(1, 2).boxed().toArray(Integer[]::new)))
@@ -104,7 +105,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("Enable Jooq Logging (LoggingListener)")
-    public void jooqLoggingEnabledTest() {
+    public void jooqLoggingEnabledTestMe() {
         dsl.configuration().settings().withExecuteLogging(true);
         Result<Record> result = dsl.select().from(Book.BOOK)
                 .where(Book.BOOK.ID.in(IntStream.range(1, 2).boxed().toArray(Integer[]::new)))
@@ -114,7 +115,7 @@ public class ConfigurationTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/dsl-context/custom-settings/settings-listener-invocation-order/
     @Test
     @DisplayName("Invocation Order Of Jooq Listeners")
-    public void jooqListenerInovcationOrderTest() {
+    public void jooqListenerInovcationOrderTestMe() {
         dsl.configuration().settings().withExecuteLogging(true)
                 .withTransactionListenerStartInvocationOrder(InvocationOrder.DEFAULT)
                 .withTransactionListenerEndInvocationOrder(InvocationOrder.REVERSE);
@@ -129,7 +130,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("Using explicit transaction control")
-    public void explicitTransactionControlTest() {
+    public void explicitTransactionControlTestMe() {
         dsl.configuration().settings().withExecuteLogging(true);
         TransactionStatus txStatus = context.getBean("transactionManager", PlatformTransactionManager.class).getTransaction(new DefaultTransactionDefinition());
         try {
@@ -154,7 +155,7 @@ public class ConfigurationTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/dsl-context/custom-settings/settings-optimistic-locking/
     @Test
     @DisplayName("Using optimistic locking")
-    public void usingOptimisticLocking() {
+    public void usingOptimisticLockingMe() {
         /* pom.xml has info about version column and timestamp column for code generation
          *  <recordVersionFields>VERSION</recordVersionFields>
          * <recordTimestampFields>MODIFIED_TS</recordTimestampFields>
@@ -176,7 +177,7 @@ public class ConfigurationTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/dsl-context/custom-settings/settings-attach-records/
     @Test
     @DisplayName("Using Auto-Attached Record (session)")
-    public void usingAutoAttachRecord() {
+    public void usingAutoAttachRecordMe() {
 
         //By default this is attached record with current configuration
         dsl.configuration().settings().withExecuteLogging(true)
@@ -203,7 +204,7 @@ public class ConfigurationTest {
     @Test
     @DisplayName("Using Reflection Caching")
     @Tag("performance")
-    public void usingReflectionCaching() {
+    public void usingReflectionCachingMe() {
 
         //By default this is attached record with current configuration
         dsl.configuration().settings().withExecuteLogging(true)
@@ -224,7 +225,7 @@ public class ConfigurationTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/dsl-context/custom-settings/settings-fetch-warnings/
     @Test
     @DisplayName("Fetch Warning")
-    public void withFetchWarningTest() throws Exception {
+    public void withFetchWarningTestMe() throws Exception {
         dsl.configuration().settings().withExecuteLogging(true)
                 .withInlineThreshold(5)
                 .withFetchWarnings(true);
@@ -241,7 +242,7 @@ public class ConfigurationTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/dsl-context/custom-settings/settings-return-all-on-store/
     @Test
     @DisplayName("Return Identity Value On Store")
-    public void identityValueOnStoreTest() {
+    public void identityValueOnStoreTestMe() {
 
         //By default this is attached record with current configuration
         dsl.configuration().settings().withExecuteLogging(true)
@@ -267,7 +268,7 @@ public class ConfigurationTest {
     @Test
     @DisplayName("Map JPA Annotations")
     @Tag("performance")
-    public void jpaAnnotationTest() {
+    public void jpaAnnotationTestMe() {
 
         JdbcTemplateBookService bookService = context.getBean("bookService", JdbcTemplateBookService.class);
         bookService.getDsl().configuration().settings().withExecuteLogging(true);
@@ -285,7 +286,7 @@ public class ConfigurationTest {
     @Test
     @DisplayName("JDBC Flags")
     @Tag("performance")
-    public void jdbcFlagsTest() {
+    public void jdbcFlagsTestMe() {
         //These are set at UCP level, if required can be overridden per query
         JdbcTemplateBookService bookService = context.getBean("bookService", JdbcTemplateBookService.class);
 
@@ -304,11 +305,14 @@ public class ConfigurationTest {
     @Test
     @DisplayName("Batch size - several queries insert")
     @Tag("performance")
-    public void batchSizeServeralQueriesTest() {
+    public void batchSizeServeralQueriesTestMe() {
         dsl.configuration().settings().withBatchSize(20);
+        SelectJoinStep<Record1<Integer>> result = dsl.select(max(BATCH_TEST.ID)).from(BATCH_TEST);
+        Integer currentMaxId = result.fetch().get(0).value1();
+
         dsl.transaction(cfg -> {
             dsl.batched(b -> {
-                IntStream.range(20000, 20100).forEach(x -> dsl.insertInto(BatchTest.BATCH_TEST)
+                IntStream.range(currentMaxId+1, currentMaxId+1000).forEach(x -> dsl.insertInto(BatchTest.BATCH_TEST)
                         .set(BATCH_TEST.ID, x)
                         .set(BATCH_TEST.TITLE, "Title" + x)
                         .set(BATCH_TEST.AGE, BigInteger.valueOf(5 + x))
@@ -324,9 +328,11 @@ public class ConfigurationTest {
     @DisplayName("Batch size - single query insert")
     @Tag("performance")
     @Order(1)
-    public void batchSizeSingleQueryTest() {
+    public void batchSizeSingleQueryTestMe() {
 
         dsl.configuration().settings().withBatchSize(5000).withExecuteLogging(true);
+        SelectJoinStep<Record1<Integer>> result = dsl.select(max(BATCH_TEST.ID)).from(BATCH_TEST);
+        Integer currentMaxId = result.fetch().get(0).value1();
 
         dsl.transaction(cfg -> {
 
@@ -360,7 +366,7 @@ public class ConfigurationTest {
                     BATCH_TEST.ID, BATCH_TEST.TITLE, BATCH_TEST.AGE,
                     BATCH_TEST.CREATED_BY, BATCH_TEST.CREATED_TS,
                     BATCH_TEST.VERSION).values((Integer) null, null, (BigInteger) null, null, null, null));
-            IntStream.range(1, 5001).forEach(x -> {
+            IntStream.range(currentMaxId+1, currentMaxId+5000).forEach(x -> {
                 bindStep.bind(x, "Title" + x, BigInteger.valueOf(5 + x), "tk", LocalDateTime.now(), 0L);
             });
 
@@ -375,7 +381,7 @@ public class ConfigurationTest {
     @DisplayName("IN-list Padding Reading Data")
     @Tag("performance")
     @Order(2)
-    public void inListPaddingTest() {
+    public void inListPaddingTestMe() {
 
         //With derive make a copy of configuration and settings
         Configuration config = dsl.configuration().derive();
@@ -389,12 +395,12 @@ public class ConfigurationTest {
 //                .fetch();
 
         Result<Record> result = DSL.using(config).select().from(BATCH_TEST)
-                .where(BATCH_TEST.ID.in(IntStream.range(1, 20001).boxed().toArray(Integer[]::new)))
+                .where(BATCH_TEST.ID.in(IntStream.range(1, 1001).boxed().toArray(Integer[]::new)))
                 .fetch();
         //Time to read complete data
         StopWatch watch = watch = new StopWatch();
         for (Record rec : result) {
-            rec.toString();
+            rec.getValue(0);
         }
         log.info("Total time to read {}", StopWatch.format(watch.split()));
 
@@ -404,7 +410,7 @@ public class ConfigurationTest {
     @DisplayName("IN-list With Array Reading Data")
     @Tag("performance")
     @Order(3)
-    public void inListArrayTest() {
+    public void inListArrayTestMe() {
 
         //With derive make a copy of configuration and settings
         Configuration config = dsl.configuration().derive();
@@ -430,7 +436,7 @@ public class ConfigurationTest {
     //https://www.jooq.org/doc/latest/manual/sql-building/dsl-context/custom-settings/settings-implicit-join-type/
     @Test
     @DisplayName("Implicit join type")
-    public void implicitJoinTest() {
+    public void implicitJoinTestMe() {
         Settings settings = dsl.configuration().settings()
                 .withExecuteLogging(false).withRenderImplicitJoinType(RenderImplicitJoinType.INNER_JOIN);
 

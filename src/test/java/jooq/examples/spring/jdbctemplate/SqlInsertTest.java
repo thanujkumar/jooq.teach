@@ -2,10 +2,7 @@ package jooq.examples.spring.jdbctemplate;
 
 import jooq.examples.generated.tables.InsertTest;
 import jooq.examples.generated.tables.records.InsertTestRecord;
-import org.jooq.BatchBindStep;
-import org.jooq.DSLContext;
-import org.jooq.InsertValuesStep6;
-import org.jooq.Result;
+import org.jooq.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -20,10 +17,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.stream.IntStream;
 
-import static jooq.examples.generated.Tables.AUTHOR;
-import static jooq.examples.generated.Tables.INSERT_TEST;
+import static jooq.examples.generated.Tables.*;
+import static jooq.examples.generated.Tables.BATCH_TEST;
 import static org.jooq.impl.DSL.localDate;
+import static org.jooq.impl.DSL.max;
 
+////Note TestMe convention is used to capture test name by Oracle end to end metrics
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:jooq-spring-jdbc-template.xml")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -40,24 +39,29 @@ public class SqlInsertTest {
     @Test
     @DisplayName("basic insert statements")
     @Order(1)
-    public void simpleInsertTest() {
+    public void simpleInsertTestMe() {
+
+        SelectJoinStep<Record1<Integer>> result = dsl.select(max(INSERT_TEST.ID)).from(INSERT_TEST);
+        Integer currentMaxId = result.fetch().get(0).value1();
+
+
         dsl.transaction(cfx -> {
             dsl.insertInto(InsertTest.INSERT_TEST,
                     INSERT_TEST.ID, INSERT_TEST.NAME, INSERT_TEST.AGE, INSERT_TEST.TITLE, INSERT_TEST.CREATED_TS, INSERT_TEST.VERSION)
-                    .values(1, "TK", BigInteger.valueOf(10), "STD", LocalDateTime.now(), 0L)
+                    .values(currentMaxId + 1, "TK", BigInteger.valueOf(10), "STD", LocalDateTime.now(), 0L)
                     .execute();
         });
 
         dsl.transaction(cfx -> {
             InsertValuesStep6<InsertTestRecord, Integer, String, BigInteger, String, LocalDateTime, Long> step =
                     dsl.insertInto(INSERT_TEST, INSERT_TEST.ID, INSERT_TEST.NAME, INSERT_TEST.AGE, INSERT_TEST.TITLE, INSERT_TEST.CREATED_TS, INSERT_TEST.VERSION);
-            step.values(2, "TK", BigInteger.valueOf(10), "STD", LocalDateTime.now(), 0L).execute();
+            step.values(currentMaxId + 2, "TK", BigInteger.valueOf(10), "STD", LocalDateTime.now(), 0L).execute();
         });
 
 
         dsl.transaction(cfx -> {
             InsertTestRecord insertTestRecord = new InsertTestRecord();
-            insertTestRecord.setId(3);
+            insertTestRecord.setId(currentMaxId + 3);
             insertTestRecord.setAge(BigInteger.valueOf(10));
             insertTestRecord.setTitle("STDNT");
             insertTestRecord.setName("TK2").setCreatedTs(LocalDateTime.now()).setVersion(0L);
@@ -71,12 +75,16 @@ public class SqlInsertTest {
     @Test
     @DisplayName("multi-record insert statements with values")
     @Order(2)
-    public void multiInsertTest() {
+    public void multiInsertTestMe() {
         dsl.configuration().settings().withBatchSize(500); //for insert
+
+        SelectJoinStep<Record1<Integer>> result = dsl.select(max(INSERT_TEST.ID)).from(INSERT_TEST);
+        Integer currentMaxId = result.fetch().get(0).value1();
+
 
         InsertValuesStep6 insertValuesStep = dsl.insertInto(InsertTest.INSERT_TEST, INSERT_TEST.ID, INSERT_TEST.NAME,
                 INSERT_TEST.AGE, INSERT_TEST.TITLE, INSERT_TEST.CREATED_TS, INSERT_TEST.VERSION);
-        IntStream.range(4, 1500).forEach(x -> {
+        IntStream.range(currentMaxId + 1, currentMaxId + 1500).forEach(x -> {
             insertValuesStep.values(x, "Name" + x, 5 + x, "Title" + x, LocalDateTime.now(), 0L);
         });
 
@@ -89,15 +97,18 @@ public class SqlInsertTest {
     @Test
     @DisplayName("multi-record insert statements with bind values using batch")
     @Order(3)
-    public void multiInsertWithBindBatchTest() {
+    public void multiInsertWithBindBatchTestMe() {
 
         dsl.configuration().settings().withBatchSize(500); //for insert
+        SelectJoinStep<Record1<Integer>> result = dsl.select(max(INSERT_TEST.ID)).from(INSERT_TEST);
+        Integer currentMaxId = result.fetch().get(0).value1();
+
         dsl.transaction(cfg -> {
             BatchBindStep bindStep = dsl.batch(dsl.insertInto(InsertTest.INSERT_TEST, INSERT_TEST.ID, INSERT_TEST.NAME,
                     INSERT_TEST.AGE, INSERT_TEST.TITLE, INSERT_TEST.CREATED_TS, INSERT_TEST.VERSION)
                     .values((Integer) null, null, (BigInteger) null, null, null, null));
 
-            IntStream.range(1501, 3000).forEach(x -> {
+            IntStream.range(currentMaxId + 1, currentMaxId + 3000).forEach(x -> {
                 bindStep.bind(x, "Name" + x, 5 + x, "Title" + x, LocalDateTime.now(), 0L);
             });
 
@@ -109,15 +120,19 @@ public class SqlInsertTest {
     @Test
     @DisplayName("insert return keys")
     @Order(4)
-    public void insertReturningTest() {
+    public void insertReturningTestMe() {
 
         dsl.configuration().settings().withBatchSize(500); //for insert
+        SelectJoinStep<Record1<Integer>> resultMax = dsl.select(max(INSERT_TEST.ID)).from(INSERT_TEST);
+        Integer currentMaxId = resultMax.fetch().get(0).value1();
+
         InsertValuesStep6 step6 = dsl.insertInto(InsertTest.INSERT_TEST, INSERT_TEST.ID, INSERT_TEST.NAME,
                 INSERT_TEST.AGE, INSERT_TEST.TITLE, INSERT_TEST.CREATED_TS, INSERT_TEST.VERSION);
 
-        IntStream.range(3001, 3003).forEach(x -> {
+        IntStream.range(currentMaxId + 1, currentMaxId + 3).forEach(x -> {
             step6.values(x, "Name" + x, 5 + x, "Title" + x, LocalDateTime.now(), 0L);
         });
+
         dsl.transaction(cfx -> {
             Result result = step6.returningResult(INSERT_TEST.ID).fetch();
             log.info(result.toString());
@@ -129,7 +144,7 @@ public class SqlInsertTest {
     @Test
     @DisplayName("merge statement")
     @Order(5)
-    public void mergeTest() {
+    public void mergeTestMe() {
         dsl.configuration().settings().withExecuteWithOptimisticLocking(true);
         dsl.transaction(cfx -> {
             dsl.mergeInto(AUTHOR).using(dsl.selectOne())

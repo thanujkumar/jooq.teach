@@ -1,4 +1,4 @@
---- Below is for batch queries from Jooq
+--- Below is for batch queries for Jooq
 CREATE TABLE batch_test
 (
     id           NUMBER(7)         NOT NULL PRIMARY KEY,

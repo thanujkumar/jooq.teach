@@ -17,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static jooq.examples.generated.Tables.BATCH_TEST;
 
+//Note TestMe convention is used to capture test name by Oracle end to end metrics
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:jooq-spring-jdbc-template.xml")
 public class OracleExplainPlanTest {
@@ -32,7 +33,7 @@ public class OracleExplainPlanTest {
     @Test
     @DisplayName("select Explain Plan")
     @Tag("performance")
-    public void selectExplainPlan() {
+    public void selectExplainPlanMe() {
 
         //With derive make a copy of configuration and settings
         Configuration config = dsl.configuration().derive();
