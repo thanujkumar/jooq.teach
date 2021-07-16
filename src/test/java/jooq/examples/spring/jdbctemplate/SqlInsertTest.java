@@ -18,9 +18,9 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-import static jooq.examples.generated.Tables.*;
-import static jooq.examples.generated.Tables.BATCH_TEST;
-import static org.jooq.impl.DSL.localDate;
+import static jooq.examples.generated.Tables.AUTHOR;
+import static jooq.examples.generated.Tables.INSERT_TEST;
+import static org.jooq.impl.DSL.begin;
 import static org.jooq.impl.DSL.max;
 
 ////Note TestMe convention is used to capture test name by Oracle end to end metrics
@@ -155,6 +155,44 @@ public class SqlInsertTest {
                     .whenNotMatchedThenInsert(AUTHOR.ID, AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME, AUTHOR.DATE_OF_BIRTH, AUTHOR.CREATED_BY, AUTHOR.CREATED_TS, AUTHOR.VERSION)
                     .values(3, "THANUJ", "KUMAR", LocalDate.of(1977, 03, 26), "owner", LocalDateTime.now(), 0L)
                     .execute();
+        });
+    }
+
+    @Test
+    @DisplayName("Client Side Block Insert Statements")
+    @Order(6)
+    public void blockInsertTestMe() {
+        dsl.configuration().settings().withExecuteWithOptimisticLocking(true).withExecuteLogging(true);
+
+        SelectJoinStep<Record1<Integer>> resultMax = dsl.select(max(INSERT_TEST.ID)).from(INSERT_TEST);
+        Integer currentMaxId = Optional.ofNullable(resultMax.fetch().get(0).value1()).orElse(0);
+        int val = currentMaxId + 1;
+
+        //https://www.jooq.org/doc/latest/manual/sql-building/procedural-statements/procedural-block/
+        dsl.transaction(cfx -> {
+            dsl.begin(
+                    dsl.insertInto(INSERT_TEST, INSERT_TEST.ID, INSERT_TEST.AGE, INSERT_TEST.TITLE, INSERT_TEST.NAME, INSERT_TEST.CREATED_TS, INSERT_TEST.VERSION)
+                            .values(val, BigInteger.valueOf(val + 5), "Title" + val, "Name" + val, LocalDateTime.now(), 0L),
+
+                    dsl.insertInto(INSERT_TEST, INSERT_TEST.ID, INSERT_TEST.AGE, INSERT_TEST.TITLE, INSERT_TEST.NAME, INSERT_TEST.CREATED_TS, INSERT_TEST.VERSION)
+                            .values(val + 1, BigInteger.valueOf(val + (1 + 5)), "Title" + (val + 1), "Name" + (val + 1), LocalDateTime.now(), 0L)
+
+            ).execute();
+        });
+
+        int va = val + 2;
+
+        dsl.transaction(cfx -> {
+            dsl.begin(
+                    begin(
+                            dsl.insertInto(INSERT_TEST, INSERT_TEST.ID, INSERT_TEST.AGE, INSERT_TEST.TITLE, INSERT_TEST.NAME, INSERT_TEST.CREATED_TS, INSERT_TEST.VERSION)
+                                    .values(va, BigInteger.valueOf(va + 5), "Title" + va, "Name" + (va), LocalDateTime.now(), 0L)
+                    ),
+                    begin(
+                            dsl.insertInto(INSERT_TEST, INSERT_TEST.ID, INSERT_TEST.AGE, INSERT_TEST.TITLE, INSERT_TEST.NAME, INSERT_TEST.CREATED_TS, INSERT_TEST.VERSION)
+                                    .values(va + 1, BigInteger.valueOf(va + (1 + 5)), "Title" + (va + 1), "Name" + (va + 1), LocalDateTime.now(), 0L)
+                    )
+            ).execute();
         });
     }
 }
