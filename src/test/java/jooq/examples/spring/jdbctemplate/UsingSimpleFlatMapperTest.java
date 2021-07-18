@@ -5,11 +5,13 @@ import jooq.examples.spring.jdbctemplate.dto.AuthorVo;
 import jooq.examples.spring.jdbctemplate.sfm.*;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
+import org.jooq.Result;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.simpleflatmapper.jdbc.JdbcMapper;
+import org.simpleflatmapper.jdbc.JdbcMapperFactory;
 import org.simpleflatmapper.jooq.JooqMapperFactory;
 import org.simpleflatmapper.jooq.SelectQueryMapper;
 import org.simpleflatmapper.jooq.SelectQueryMapperFactory;
@@ -20,6 +22,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import static jooq.examples.generated.Tables.AUTHOR;
@@ -27,6 +31,7 @@ import static jooq.examples.generated.Tables.BOOK;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:jooq-spring-jdbc-template.xml")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UsingSimpleFlatMapperTest {
 
     private static final Logger log = LoggerFactory.getLogger(UsingSimpleFlatMapperTest.class);
@@ -40,6 +45,7 @@ public class UsingSimpleFlatMapperTest {
     //https://simpleflatmapper.org/0106-getting-started-jooq.html
     @Test
     @DisplayName("Using SimpleFlatMapper libary - basic test")
+    @Order(1)
     public void basicSFMTestMe() {
         //Create a copy so that original settings is not modified that is configured in xml
         Configuration tempConfig = dsl.configuration().derive();
@@ -111,7 +117,8 @@ public class UsingSimpleFlatMapperTest {
 
     @Test
     @DisplayName("Using SimpleFlatMapper libary - join test extended object")
-    public void basicSFMJoinTestMe() {
+    @Order(2)
+    public void basicSFMJoinExtendedTestMe() {
         Configuration tempConfig = dsl.configuration().derive();
         //SelectQueryMapper<SfmExtendedAuthorVo> authorMapper = SelectQueryMapperFactory.newInstance().ignorePropertyNotFound().newMapper(SfmExtendedAuthorVo.class);
         SelectQueryMapper<SfmExtendedAuthorVo> authorMapper = SelectQueryMapperFactory
@@ -126,6 +133,24 @@ public class UsingSimpleFlatMapperTest {
                 .orderBy(AUTHOR.ID));
 
         log.info("\n" + authors);
+    }
+
+    @Test
+    @DisplayName("Using SimpleFlatMapper libary - join test from Resultset")
+    @Order(3)
+    public void basicSFMJoinExtendedWithRSTestMe() throws SQLException {
+        JdbcMapper mapper = JdbcMapperFactory.newInstance()
+                .addAlias(BOOK.ID.getName(), "bookId")
+                .newMapper(SfmExtendedAuthorVo.class);
+
+        Result query = dsl.select(AUTHOR.ID, AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME, AUTHOR.DATE_OF_BIRTH,
+                BOOK.ID, BOOK.TITLE)
+                .from(AUTHOR).leftJoin(BOOK).on(BOOK.AUTHOR_ID.eq(AUTHOR.ID))
+                .orderBy(AUTHOR.ID).fetch();
+
+        try (ResultSet rs = query.intoResultSet()) {
+            mapper.stream(rs).forEach(record -> log.info(record.toString()));
+        }
     }
 }
 
