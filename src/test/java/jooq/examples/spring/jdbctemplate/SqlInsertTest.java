@@ -3,6 +3,9 @@ package jooq.examples.spring.jdbctemplate;
 import jooq.examples.generated.tables.InsertTest;
 import jooq.examples.generated.tables.records.InsertTestRecord;
 import org.jooq.*;
+import org.jooq.impl.DSL;
+import org.jooq.impl.DefaultConfiguration;
+import org.jooq.impl.DefaultRecordListener;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -15,13 +18,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static jooq.examples.generated.Tables.AUTHOR;
 import static jooq.examples.generated.Tables.INSERT_TEST;
-import static org.jooq.impl.DSL.begin;
-import static org.jooq.impl.DSL.max;
+import static org.jooq.impl.DSL.*;
 
 ////Note TestMe convention is used to capture test name by Oracle end to end metrics
 @ExtendWith(SpringExtension.class)

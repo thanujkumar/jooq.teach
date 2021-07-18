@@ -101,7 +101,7 @@ public class OracleE2EWrapper extends DelegatingDataSource {
 
         Optional<StackTraceElement> traceElement = walker.walk(frames -> frames.map(StackWalker.StackFrame::toStackTraceElement)
                 .filter(s -> s.toString().toLowerCase().contains("testme")).findFirst());
-        traceElement.get().getMethodName();
+        //traceElement.get().getMethodName();
 
         if (traceElement.isPresent()) {
             Class_Method = getClassAndMethod(traceElement.get());

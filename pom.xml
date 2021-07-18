@@ -27,7 +27,10 @@
         <jooq.version>3.15.0</jooq.version>
         <!-- This is to shift between pro and community version of jooq, by default community version is used, you could pass
         -Djooq.release=org.jooq.  -Djooq.release=org.jooq.pro  -Djooq.release=org.jooq.trial-->
+        <!-- https://simpleflatmapper.org/0106-getting-started-jooq.html -->
+        <!-- [INACTIVE] https://github.com/arnaudroger/SimpleFlatMapper -->
         <jooq.release>org.jooq.pro-java-11</jooq.release>
+        <lombok.version>1.18.20</lombok.version>
 
         <oracle.driver.version>21.1.0.0</oracle.driver.version>
         <springframework.version>5.3.8</springframework.version>
@@ -39,7 +42,7 @@
         <jakarta-validation-api.version>2.0.2</jakarta-validation-api.version>
         <jakarta.xml.bind-api.version>2.3.3</jakarta.xml.bind-api.version>
         <jackson-databind.version>2.12.4</jackson-databind.version>
-        <jacoco.plugin.version>0.8.8-SNAPSHOT</jacoco.plugin.version>
+        <jacoco.plugin.version>0.8.7</jacoco.plugin.version>
 
         <reactive-streams.version>1.0.3</reactive-streams.version>
 
@@ -189,6 +192,18 @@
             <groupId>org.simpleflatmapper</groupId>
             <artifactId>sfm-jooq</artifactId>
             <version>${sfm.jooq.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jooq</artifactId>
+                    <groupId>org.jooq</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
         </dependency>
 
         <!-- Simple logging using sl4j -->
@@ -324,6 +339,13 @@
                     <version>${maven-compiler-plugin.version}</version>
                     <inherited>true</inherited>
                     <configuration>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
                         <forceJavacCompilerUse>true</forceJavacCompilerUse>
                         <source>11</source>
                         <target>11</target>
@@ -409,7 +431,7 @@
 
         <!-- Activated plugins by default -->
         <plugins>
-             <!--  flyway plugin -->
+            <!--  flyway plugin -->
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
@@ -518,21 +540,29 @@
                 <version>${jacoco.plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>prepare-agent</id>
+                        <id>pre-unit-test</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
                     <execution>
                         <id>post-unit-test</id>
-                        <phase>test</phase>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>post-integration-test</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
+                    </execution>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <goals>
+                            <goal>prepare-agent-integration</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                         <goals>
+                             <goal>report-aggregate</goal>
+                         </goals>
                     </execution>
                 </executions>
                 <configuration>

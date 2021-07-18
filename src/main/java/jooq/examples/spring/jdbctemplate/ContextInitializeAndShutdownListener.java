@@ -25,6 +25,9 @@ public class ContextInitializeAndShutdownListener implements ApplicationContextA
             UniversalConnectionPoolManager poolManager = UniversalConnectionPoolManagerImpl.getUniversalConnectionPoolManager();
             poolManager.createConnectionPool((UniversalConnectionPoolAdapter) applicationContext.getBean("dataSource"));
             poolManager.startConnectionPool(((PoolDataSource) applicationContext.getBean("dataSource")).getConnectionPoolName());
+            log.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            log.info("++++++++++++++++++++"+poolManager.getConnectionPool(((PoolDataSource) applicationContext.getBean("dataSource")).getConnectionPoolName()).getStatistics());
+            log.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         } catch (UniversalConnectionPoolException e) {
             throw new RuntimeException(e);
         }

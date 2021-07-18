@@ -93,6 +93,8 @@
 
     <bean id="queryPerf" class="jooq.examples.tools.QueryPerformanceListener"/>
 
+    <bean id="recordListener" class="jooq.examples.tools.CustomRecordListener" />
+
     <!-- Invoking an internal, package-private constructor for the example Implement your own Configuration for more reliable behaviour -->
     <bean class="org.jooq.impl.DefaultConfiguration" name="config">
         <property name="SQLDialect">
@@ -100,6 +102,13 @@
         </property>
         <property name="connectionProvider" ref="connectionProvider"/>
         <property name="transactionProvider" ref="transactionProvider"/>
+        <property name="recordListenerProvider">
+            <array>
+                <bean class="org.jooq.impl.DefaultRecordListenerProvider">
+                    <constructor-arg index="0" ref="recordListener" />
+                </bean>
+            </array>
+        </property>
         <property name="executeListenerProvider">
             <array>
                 <bean class="org.jooq.impl.DefaultExecuteListenerProvider">
@@ -108,7 +117,6 @@
                 <bean class="org.jooq.impl.DefaultExecuteListenerProvider">
                     <constructor-arg index="0" ref="queryPerf"/>
                 </bean>
-
             </array>
         </property>
         <property name="settings">
