@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://github.com/thanujkumar/jooq.teach/actions?query=workflow%3Amaster_ci+branch%3Amaster">
-    <img alt="Github Actions Build Status" src="https://img.shields.io/github/workflow/status/thanujkumar/jooq.teach/CI?label=master&style=flat-square%22"></a>
+  <a href="https://github.com/thanujkumar/jooq.teach/actions?query=workflow=master_ci+branch=master">
+    <img alt="Github Actions Build Status" src="https://img.shields.io/github/workflow/status/thanujkumar/jooq.teach/master_ci?label=master&style=flat-square"></a>
 </p>
 
 Make sure schema is created as specified in schema.ddl before running any below command
