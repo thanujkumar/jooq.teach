@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: "java 16 build"
+    name: "jooq.examples"
     runs-on: [self-hosted]
     steps:
       - name: check out
