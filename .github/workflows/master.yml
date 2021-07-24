@@ -25,12 +25,12 @@ jobs:
         uses: stCarolas/setup-maven@v4.1
         with:
           maven-version: 3.8.1
-      - name: cache maven artifacts
-        uses: actions/cache@v2.1.6
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven-
+#      - name: cache maven artifacts
+#        uses: actions/cache@v2.1.6
+#        with:
+#          path: ~/.m2
+#          key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml') }}
+#          restore-keys: ${{ runner.os }}-maven-
       - name: verify and check updates
         run: |
           mvn clean verify
